@@ -3,315 +3,427 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#ff5fa2">
-<title>Piggy Bank</title>
+<meta name="theme-color" content="#fff4f8">
+<meta name="description" content="Piggy Bank — Small contributions. Big goals.">
+<title>Piggy Bank 💕</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
-
 :root{
-  --pink:#ff5fa2;
-  --pink-dark:#e8468b;
-  --purple:#8d6bff;
-  --yellow:#ffd95a;
-  --green:#48c78e;
-  --red:#ff6b81;
-  --ink:#17151d;
-  --muted:#77727f;
-  --bg:#fff8fc;
+  --bg:#fff5f8;
   --card:#ffffff;
-  --border:#f0e5ed;
-  --shadow:0 10px 30px rgba(30,20,40,.08);
+  --card2:#fff0f5;
+  --text:#281927;
+  --muted:#8c7585;
+  --pink:#ff72a8;
+  --pink-dark:#e94f8b;
+  --pink-soft:#ffd9e8;
+  --purple:#9d7bea;
+  --purple-soft:#eee7ff;
+  --yellow:#ffd76a;
+  --yellow-soft:#fff4c9;
+  --green:#71c89b;
+  --green-soft:#ddf5e8;
+  --border:#f2dce6;
+  --shadow:0 12px 30px rgba(83,40,65,.08);
+  --danger:#e96767;
 }
 
-*{box-sizing:border-box}
+[data-theme="dark"]{
+  --bg:#17101a;
+  --card:#241722;
+  --card2:#301c2b;
+  --text:#fff3f8;
+  --muted:#bda8b6;
+  --pink:#ff79ad;
+  --pink-dark:#ff5c9c;
+  --pink-soft:#57253e;
+  --purple:#ae91f4;
+  --purple-soft:#33284d;
+  --yellow:#ffd76a;
+  --yellow-soft:#493d1d;
+  --green:#72d2a0;
+  --green-soft:#1e3d2e;
+  --border:#412c3b;
+  --shadow:0 12px 30px rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
 
 body{
-  margin:0;
-  font-family:'DM Sans',sans-serif;
+  font-family:"DM Sans",sans-serif;
   background:var(--bg);
-  color:var(--ink);
+  color:var(--text);
   min-height:100vh;
+  padding-bottom:90px;
+  transition:.25s;
 }
 
-button,input,select{
-  font:inherit;
-}
+button,input,select{font:inherit}
 
 button{
   border:0;
   cursor:pointer;
 }
 
-.hidden{display:none!important}
-
 .app{
-  max-width:520px;
+  max-width:620px;
   margin:auto;
-  min-height:100vh;
-  padding-bottom:90px;
+  padding:18px 16px 30px;
 }
 
-header{
-  padding:22px 20px 14px;
+.topbar{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-}
-
-.brand{
-  display:flex;
   align-items:center;
-  gap:10px;
+  margin-bottom:18px;
 }
 
 .logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.logo-icon{
   width:42px;
   height:42px;
   border-radius:14px;
-  background:linear-gradient(135deg,#ff72ad,#8d6bff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  box-shadow:0 6px 18px rgba(255,95,162,.25);
+  background:var(--pink-soft);
+  display:grid;
+  place-items:center;
+  font-size:23px;
 }
 
-.brand-text{
-  line-height:1.05;
-}
+.logo-text{font-weight:800;font-size:17px}
 
-.brand-name{
-  font-size:18px;
-  font-weight:800;
-}
-
-.brand-sub{
-  font-size:11px;
+.logo-sub{
   color:var(--muted);
+  font-size:11px;
+  margin-top:1px;
 }
 
 .icon-btn{
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
   border-radius:14px;
   background:var(--card);
+  color:var(--text);
   box-shadow:var(--shadow);
-  color:var(--ink);
+  border:1px solid var(--border);
   font-size:18px;
 }
 
-main{
-  padding:0 18px;
+.screen{
+  display:none;
+  animation:fadeIn .25s ease;
 }
 
-.screen{display:none}
 .screen.active{display:block}
 
-.hero{
-  background:linear-gradient(135deg,#ff75ad 0%,#9a78ff 100%);
-  color:white;
-  border-radius:28px;
-  padding:24px 22px;
-  margin:8px 0 16px;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 15px 35px rgba(255,95,162,.22);
-}
-
-.hero:after{
-  content:'🐷';
-  position:absolute;
-  right:-4px;
-  bottom:-15px;
-  font-size:95px;
-  opacity:.18;
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
 }
 
 .eyebrow{
+  color:var(--pink-dark);
   font-size:12px;
-  font-weight:700;
-  opacity:.85;
+  font-weight:800;
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:1px;
+  margin-bottom:5px;
 }
 
-.hero h1{
-  font-family:'Playfair Display',serif;
-  font-size:30px;
+h1{
+  font-family:"Playfair Display",serif;
+  font-size:34px;
   line-height:1.08;
-  margin:7px 0 8px;
-  max-width:80%;
+  margin-bottom:8px;
 }
 
-.hero p{
-  margin:0;
-  font-size:14px;
-  opacity:.9;
-}
+h2{font-size:22px;margin-bottom:5px}
 
-.progress-wrap{
-  margin-top:20px;
-}
-
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  font-weight:700;
-  margin-bottom:7px;
-}
-
-.progress-bar{
-  height:10px;
-  border-radius:99px;
-  background:rgba(255,255,255,.25);
-  overflow:hidden;
-}
-
-.progress-fill{
-  height:100%;
-  border-radius:99px;
-  background:white;
-  width:0%;
-  transition:.4s;
-}
-
-.money{
-  font-size:28px;
-  font-weight:800;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:17px;
-  box-shadow:var(--shadow);
-  margin-bottom:12px;
-}
-
-.stat-card{
-  min-height:125px;
-}
-
-.card-icon{
-  font-size:22px;
-  margin-bottom:9px;
-}
-
-.card-label{
-  color:var(--muted);
-  font-size:12px;
-  font-weight:600;
-  margin-bottom:4px;
-}
-
-.card-value{
-  font-size:20px;
-  font-weight:800;
-  line-height:1.15;
-}
-
-.card-small{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:6px;
-}
+h3{font-size:16px}
 
 .section-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin:23px 3px 11px;
+  margin:25px 2px 12px;
 }
 
-.section-title h2{
-  margin:0;
-  font-size:18px;
-}
+.section-title h2{margin:0}
 
-.section-link{
+.small-link{
+  background:none;
   color:var(--pink-dark);
-  font-size:12px;
   font-weight:700;
+  font-size:13px;
 }
 
-.checkin{
+.hero{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,255,255,.7),transparent 25%),
+    linear-gradient(135deg,#ffdce9,#f3e8ff);
+  border-radius:28px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:var(--shadow);
+}
+
+[data-theme="dark"] .hero{
+  background:linear-gradient(135deg,#4b2338,#33264d);
+  border-color:var(--border);
+}
+
+.hero:after{
+  content:"✨";
+  position:absolute;
+  right:18px;
+  top:14px;
+  font-size:26px;
+}
+
+.hero-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.mascot{
+  font-size:46px;
+  filter:drop-shadow(0 5px 5px rgba(0,0,0,.08));
+  animation:bob 3s ease-in-out infinite;
+}
+
+@keyframes bob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+
+.amount{
+  font-size:38px;
+  font-weight:800;
+  letter-spacing:-1.5px;
+  margin-top:12px;
+}
+
+.goal-line{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:600;
+}
+
+.progress-track{
+  height:13px;
+  border-radius:99px;
+  background:rgba(255,255,255,.65);
+  margin:17px 0 9px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  transition:width .6s ease;
+}
+
+.progress-meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  font-weight:800;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:11px;
+  margin-top:12px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:21px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+
+.stat-icon{font-size:20px;margin-bottom:7px}
+
+.stat-value{
+  font-size:21px;
+  font-weight:800;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+  margin-top:2px;
+}
+
+.today-card,
+.countdown,
+.big-progress,
+.calendar,
+.form-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.today-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
 }
 
-.checkin-copy strong{
-  display:block;
-  font-size:16px;
-}
-
-.checkin-copy span{
-  display:block;
+.today-date{
   color:var(--muted);
   font-size:12px;
-  margin-top:4px;
+  margin-bottom:3px;
 }
 
-.primary{
-  background:var(--ink);
-  color:white;
-  border-radius:15px;
-  padding:12px 16px;
+.today-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.paid-badge{
+  padding:7px 10px;
+  border-radius:99px;
+  background:var(--green-soft);
+  color:#29825a;
+  font-size:11px;
   font-weight:800;
   white-space:nowrap;
 }
 
-.primary.pink{
+.primary-btn{
+  width:100%;
+  margin-top:15px;
   background:var(--pink);
+  color:white;
+  padding:14px 18px;
+  border-radius:16px;
+  font-weight:800;
+  box-shadow:0 7px 18px rgba(255,114,168,.25);
 }
 
-.secondary{
-  background:#fff0f7;
-  color:var(--pink-dark);
-  border-radius:15px;
-  padding:12px 16px;
+.primary-btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.secondary-btn{
+  width:100%;
+  margin-top:10px;
+  background:var(--purple-soft);
+  color:var(--text);
+  padding:13px 18px;
+  border-radius:16px;
   font-weight:800;
 }
 
-.success{
-  color:#16855b;
+.countdown{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.countdown-icon{
+  width:50px;
+  height:50px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  background:var(--yellow-soft);
+  font-size:24px;
+}
+
+.countdown-number{
+  font-size:25px;
   font-weight:800;
 }
 
-.member-row{
+.countdown-label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.milestones{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  padding:3px 2px 8px;
+  scrollbar-width:none;
+}
+
+.milestone{
+  min-width:93px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:12px 10px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+
+.milestone-icon{font-size:20px;margin-bottom:5px}
+
+.milestone-label{
+  font-size:10px;
+  font-weight:800;
+}
+
+.milestone.locked{
+  opacity:.45;
+  filter:grayscale(1);
+}
+
+.member-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.member-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:21px;
+  padding:14px;
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid var(--border);
-}
-
-.member-row:last-child{
-  border-bottom:0;
+  box-shadow:var(--shadow);
 }
 
 .avatar{
-  width:42px;
-  height:42px;
-  border-radius:15px;
-  background:#fff0f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:47px;
+  height:47px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
   font-size:22px;
   flex-shrink:0;
+  background:var(--pink-soft);
 }
 
 .member-info{
@@ -319,39 +431,48 @@ main{
   min-width:0;
 }
 
-.member-name{
-  font-weight:800;
-  font-size:14px;
-}
+.member-name{font-weight:800}
 
 .member-meta{
-  font-size:11px;
   color:var(--muted);
-  margin-top:2px;
+  font-size:11px;
+  margin-top:3px;
 }
 
-.status{
-  font-size:12px;
-  font-weight:800;
+.member-money{text-align:right}
+
+.member-money strong{
+  display:block;
+  font-size:15px;
 }
 
-.status.paid{color:#16855b}
-.status.pending{color:var(--red)}
+.status-dot{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-size:10px;
+  font-weight:700;
+  color:var(--green);
+}
 
 .big-progress{
-  width:190px;
-  height:190px;
+  text-align:center;
+  padding:25px 20px;
+}
+
+.progress-circle{
+  width:185px;
+  height:185px;
   border-radius:50%;
-  margin:15px auto 22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:conic-gradient(var(--pink) var(--percent),#f2e8ef 0);
+  margin:0 auto 18px;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(var(--pink) 0deg,var(--pink-soft) 0deg);
   position:relative;
 }
 
-.big-progress:after{
-  content:'';
+.progress-circle:before{
+  content:"";
   position:absolute;
   width:145px;
   height:145px;
@@ -359,460 +480,450 @@ main{
   background:var(--card);
 }
 
-.big-progress-inner{
-  position:relative;
-  z-index:1;
-  text-align:center;
-}
+.circle-content{position:relative}
 
-.big-progress-percent{
+.circle-percent{
   font-size:34px;
   font-weight:800;
 }
 
-.big-progress-label{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.milestone{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:12px 0;
-}
-
-.milestone-dot{
-  width:38px;
-  height:38px;
-  border-radius:13px;
-  background:#f8edf4;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.milestone.done .milestone-dot{
-  background:#e7f9f0;
-}
-
-.milestone-text{
-  flex:1;
-}
-
-.milestone-title{
-  font-weight:800;
-  font-size:13px;
-}
-
-.milestone-sub{
+.circle-label{
   color:var(--muted);
   font-size:11px;
-  margin-top:2px;
+  font-weight:700;
 }
 
-.calendar{
+.calendar-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.calendar-title{font-weight:800}
+
+.calendar-grid{
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  gap:6px;
+  gap:5px;
+}
+
+.day-name{
+  text-align:center;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  padding-bottom:4px;
 }
 
 .day{
-  aspect-ratio:1;
-  border-radius:9px;
-  background:#f5edf2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:9px;
-  color:var(--muted);
+  min-height:37px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:10px;
+  font-weight:700;
 }
 
 .day.paid{
-  background:#48c78e;
-  color:white;
+  background:var(--green-soft);
+  color:#29825a;
+}
+
+.day.missed{
+  background:#fff0f0;
+  color:var(--danger);
+}
+
+.day.weekend{opacity:.3}
+
+.day.empty{visibility:hidden}
+
+.achievement-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:11px;
+}
+
+.achievement{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:21px;
+  padding:17px 13px;
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+
+.achievement-icon{
+  font-size:31px;
+  margin-bottom:7px;
+}
+
+.achievement-name{
+  font-size:12px;
   font-weight:800;
 }
 
-.day.today{
-  outline:2px solid var(--pink);
-  outline-offset:2px;
+.achievement-desc{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.4;
+  margin-top:4px;
 }
 
-.day.future{
+.achievement.locked{
   opacity:.4;
+  filter:grayscale(1);
+}
+
+.form-group{margin-bottom:15px}
+
+.form-group:last-child{margin-bottom:0}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+input,select{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  border-radius:14px;
+  padding:13px;
+  outline:none;
+}
+
+input:focus,select:focus{
+  border-color:var(--pink);
+}
+
+.danger-btn{
+  width:100%;
+  margin-top:12px;
+  background:transparent;
+  color:var(--danger);
+  border:1px solid #f0baba;
+  padding:13px;
+  border-radius:15px;
+  font-weight:800;
+}
+
+.invite-box{
+  background:var(--purple-soft);
+  border-radius:20px;
+  padding:17px;
+  text-align:center;
+  margin-top:12px;
+}
+
+.invite-code{
+  font-size:30px;
+  letter-spacing:5px;
+  font-weight:800;
+  margin:6px 0;
+}
+
+.note{
+  background:var(--yellow-soft);
+  border-radius:17px;
+  padding:13px;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px 20px;
+  color:var(--muted);
 }
 
 .bottom-nav{
   position:fixed;
   left:50%;
-  bottom:0;
+  bottom:12px;
   transform:translateX(-50%);
-  width:min(520px,100%);
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(15px);
-  border-top:1px solid var(--border);
+  width:min(590px,calc(100% - 24px));
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--border);
+  border-radius:23px;
+  padding:8px;
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  padding:9px 8px calc(9px + env(safe-area-inset-bottom));
-  z-index:20;
+  gap:4px;
+  box-shadow:0 12px 35px rgba(40,20,35,.15);
+  z-index:50;
+}
+
+[data-theme="dark"] .bottom-nav{
+  background:rgba(36,23,34,.92);
 }
 
 .nav-btn{
-  background:none;
-  color:#9b929c;
-  padding:6px 2px;
+  background:transparent;
+  color:var(--muted);
+  border-radius:16px;
+  padding:8px 3px;
   font-size:10px;
   font-weight:700;
 }
 
 .nav-icon{
   display:block;
-  font-size:21px;
+  font-size:19px;
   margin-bottom:2px;
 }
 
 .nav-btn.active{
   color:var(--pink-dark);
+  background:var(--pink-soft);
 }
 
-.modal-backdrop{
+.modal-backdrop,
+.welcome{
   position:fixed;
   inset:0;
-  background:rgba(20,15,25,.48);
-  display:flex;
+  background:rgba(20,10,18,.5);
+  backdrop-filter:blur(7px);
+  display:none;
   align-items:flex-end;
   justify-content:center;
   z-index:100;
-  padding:14px;
 }
 
-.modal{
-  width:min(520px,100%);
-  max-height:90vh;
-  overflow:auto;
+.modal-backdrop.show,
+.welcome.show{
+  display:flex;
+}
+
+.modal,
+.welcome-card{
+  width:min(620px,100%);
   background:var(--card);
-  border-radius:28px 28px 20px 20px;
-  padding:22px;
-  animation:slideUp .25s ease;
-}
-
-@keyframes slideUp{
-  from{transform:translateY(40px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
-
-.modal h2{
-  margin:0 0 5px;
-  font-size:22px;
-}
-
-.modal-sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:20px;
-}
-
-.field{
-  margin-bottom:13px;
-}
-
-.field label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.field input,
-.field select{
-  width:100%;
-  border:1px solid var(--border);
-  background:#fffafd;
-  border-radius:14px;
-  padding:13px 14px;
-  outline:none;
-  color:var(--ink);
-}
-
-.field input:focus,
-.field select:focus{
-  border-color:var(--pink);
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.modal-actions{
-  display:flex;
-  gap:9px;
-  margin-top:18px;
-}
-
-.modal-actions button{
-  flex:1;
-}
-
-.avatar-picker{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.avatar-option{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  background:#fff1f7;
-  font-size:22px;
-  border:2px solid transparent;
-}
-
-.avatar-option.selected{
-  border-color:var(--pink);
+  border-radius:30px 30px 0 0;
+  padding:22px 18px 28px;
+  max-height:92vh;
+  overflow:auto;
+  animation:slideUp .3s ease;
 }
 
 .welcome{
-  min-height:100vh;
-  padding:34px 22px 40px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.welcome-logo{
-  font-size:65px;
-  margin-bottom:5px;
-}
-
-.welcome h1{
-  font-family:'Playfair Display',serif;
-  font-size:46px;
-  line-height:1;
-  margin:0 0 12px;
-}
-
-.welcome p{
-  color:var(--muted);
-  font-size:15px;
-  line-height:1.5;
-  margin:0 0 28px;
+  align-items:center;
+  padding:18px;
 }
 
 .welcome-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:23px;
-  padding:19px;
-  margin-bottom:11px;
-  box-shadow:var(--shadow);
-  text-align:left;
-}
-
-.welcome-card strong{
-  display:block;
-  font-size:16px;
-  margin-bottom:4px;
-}
-
-.welcome-card span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.invite-box{
-  background:#fff0f7;
-  border-radius:19px;
-  padding:17px;
+  border-radius:30px;
+  max-width:500px;
   text-align:center;
-  margin:15px 0;
 }
 
-.invite-code{
-  font-size:28px;
-  font-weight:800;
-  letter-spacing:.1em;
-  color:var(--pink-dark);
-  margin:7px 0 13px;
+.welcome-icon{
+  font-size:60px;
+  margin-bottom:8px;
 }
 
-.notice{
-  padding:12px 14px;
-  background:#fff6da;
-  border-radius:14px;
-  color:#705b00;
-  font-size:12px;
-  margin-bottom:12px;
+.welcome-card h1{
+  margin-bottom:10px;
 }
 
-.toast{
+.welcome-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+@keyframes slideUp{
+  from{transform:translateY(100%)}
+  to{transform:none}
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.close-btn{
+  width:35px;
+  height:35px;
+  border-radius:12px;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.celebration{
   position:fixed;
-  left:50%;
-  bottom:85px;
-  transform:translateX(-50%);
-  background:var(--ink);
-  color:white;
-  padding:12px 17px;
-  border-radius:14px;
-  font-size:12px;
-  font-weight:700;
+  inset:0;
+  background:rgba(30,10,25,.7);
+  backdrop-filter:blur(8px);
+  display:none;
+  place-items:center;
   z-index:200;
-  box-shadow:var(--shadow);
+  padding:20px;
+}
+
+.celebration.show{display:grid}
+
+.celebration-card{
+  background:var(--card);
+  border-radius:32px;
+  padding:32px 22px;
+  text-align:center;
+  width:min(430px,100%);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+}
+
+.celebration-icon{
+  font-size:65px;
+  margin-bottom:8px;
+}
+
+.celebration-card h2{
+  font-family:"Playfair Display",serif;
+  font-size:34px;
+}
+
+.celebration-card p{
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:8px;
+}
+
+.confetti{
+  position:fixed;
+  pointer-events:none;
+  font-size:22px;
+  animation:confetti 2.5s ease-out forwards;
+  z-index:300;
+}
+
+@keyframes confetti{
+  0%{transform:translateY(-20px) rotate(0);opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
 }
 
 .loading{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:10px;
-  color:var(--muted);
-}
-
-.spinner{
-  width:30px;
-  height:30px;
-  border:3px solid #f1dce8;
-  border-top-color:var(--pink);
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.setting-row{
-  padding:14px 0;
-  border-bottom:1px solid var(--border);
-}
-
-.setting-row:last-child{border-bottom:0}
-
-.setting-label{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.setting-value{
-  font-weight:800;
-  margin-top:3px;
-}
-
-.empty{
   text-align:center;
-  padding:30px 10px;
+  padding:60px 20px;
   color:var(--muted);
-  font-size:13px;
 }
 
-.danger{
-  color:#d9425c;
-  background:#fff0f2;
+.error-box{
+  background:#fff0f0;
+  color:#9d3030;
+  padding:13px;
+  border-radius:15px;
+  font-size:12px;
+  margin-top:12px;
 }
 
-@media(min-width:600px){
-  .bottom-nav{
-    border-radius:20px 20px 0 0;
+[data-theme="dark"] .error-box{
+  background:#402326;
+  color:#ffb2b2;
+}
+
+@media(max-width:380px){
+  .app{
+    padding-left:12px;
+    padding-right:12px;
   }
+
+  h1{font-size:30px}
+
+  .amount{font-size:34px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- WELCOME -->
-<div id="welcomeScreen" class="welcome">
-  <div class="welcome-logo">🐷</div>
-  <h1>Piggy Bank</h1>
-  <p>
-    Small contributions. Big goals.<br>
-    Save together without the WhatsApp spreadsheet chaos.
-  </p>
+<div class="app">
 
-  <button class="welcome-card" onclick="openCreateClub()">
-    <strong>✨ Create a club</strong>
-    <span>Start a goal and invite your people.</span>
-  </button>
-
-  <button class="welcome-card" onclick="openJoinClub()">
-    <strong>💗 Join a club</strong>
-    <span>Have an invite code? Jump in.</span>
-  </button>
-</div>
-
-<!-- LOADING -->
-<div id="loadingScreen" class="loading hidden">
-  <div class="spinner"></div>
-  <div>Loading your Piggy Bank…</div>
-</div>
-
-<!-- APP -->
-<div id="app" class="app hidden">
-
-<header>
-  <div class="brand">
-    <div class="logo">🐷</div>
-    <div class="brand-text">
-      <div class="brand-name">Piggy Bank</div>
-      <div id="headerClubName" class="brand-sub">Your club</div>
+<header class="topbar">
+  <div class="logo">
+    <div class="logo-icon">💕</div>
+    <div>
+      <div class="logo-text">Piggy Bank</div>
+      <div class="logo-sub" id="clubNameTop">Small contributions. Big goals.</div>
     </div>
   </div>
-  <button class="icon-btn" onclick="openMore()">⚙️</button>
+
+  <button class="icon-btn" onclick="toggleTheme()">
+    <span id="themeIcon">🌙</span>
+  </button>
 </header>
 
-<main>
+<div id="loadingScreen" class="loading">
+  💕 Loading your club...
+</div>
 
 <!-- HOME -->
-<section id="homeScreen" class="screen active">
 
-  <div class="hero">
-    <div class="eyebrow">Your shared goal</div>
-    <h1 id="heroTitle">Let's get these!</h1>
-    <p id="heroSavingFor">Saving together</p>
+<main id="homeScreen" class="screen">
 
-    <div class="progress-wrap">
-      <div class="progress-top">
-        <span id="heroSaved">R0 saved</span>
-        <span id="heroGoal">R0 goal</span>
+  <div class="eyebrow">The squad is saving 💅</div>
+  <h1 id="homeTitle">Let's make it happen.</h1>
+
+  <section class="hero">
+
+    <div class="hero-top">
+
+      <div>
+        <div class="eyebrow" id="goalLabel">🎯 Goal</div>
+        <div class="amount" id="heroAmount">R0</div>
+
+        <div class="goal-line">
+          of <span id="heroGoal">R0</span>
+        </div>
       </div>
-      <div class="progress-bar">
-        <div id="heroProgress" class="progress-fill"></div>
-      </div>
-    </div>
-  </div>
 
-  <div class="grid">
+      <div class="mascot" id="mascot">💰</div>
 
-    <div class="card stat-card">
-      <div class="card-icon">🎯</div>
-      <div class="card-label">Today's club target</div>
-      <div id="targetAmount" class="card-value">R0</div>
-      <div id="targetStatus" class="card-small">0 of 0 paid</div>
     </div>
 
-    <div class="card stat-card">
-      <div class="card-icon">🔥</div>
-      <div class="card-label">Your streak</div>
-      <div id="yourStreak" class="card-value">Day 0</div>
-      <div id="yourStreakSmall" class="card-small">Make today's contribution</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="mainProgress"></div>
     </div>
 
-    <div class="card stat-card">
-      <div class="card-icon">👯</div>
-      <div class="card-label">Club members</div>
-      <div id="memberCount" class="card-value">0</div>
-      <div class="card-small">Saving together</div>
+    <div class="progress-meta">
+      <span id="mainPercent">0%</span>
+      <span id="mainRemaining">R0 to go</span>
     </div>
 
-    <div class="card stat-card">
-      <div class="card-icon">💪</div>
-      <div class="card-label">Club streak</div>
-      <div id="clubStreak" class="card-value">Day 0</div>
-      <div id="clubStreakSmall" class="card-small">Everyone pays = streak</div>
+  </section>
+
+  <div class="stats-grid">
+
+    <div class="stat">
+      <div class="stat-icon">👯</div>
+      <div class="stat-value" id="memberCount">0</div>
+      <div class="stat-label">in the squad</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🎯</div>
+      <div class="stat-value" id="memberTarget">R0</div>
+      <div class="stat-label">target per member</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-value" id="clubStreak">0 days</div>
+      <div class="stat-label">club streak</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">💰</div>
+      <div class="stat-value" id="dailyTotal">R0</div>
+      <div class="stat-label">club target</div>
+      <div id="dailyOutstanding" style="color:var(--muted);font-size:10px;margin-top:4px"></div>
     </div>
 
   </div>
@@ -821,850 +932,1734 @@ main{
     <h2>Today's check-in</h2>
   </div>
 
-  <div class="card">
-    <div class="checkin">
-      <div class="checkin-copy">
-        <strong id="checkinTitle">Have you paid today?</strong>
-        <span id="checkinSub">Keep your goal moving.</span>
+  <section class="today-card">
+
+    <div class="today-row">
+
+      <div>
+        <div class="today-date" id="todayDate">Today</div>
+        <div class="today-title" id="todayTitle">Did you contribute today?</div>
       </div>
-      <button id="checkinButton" class="primary pink" onclick="recordToday()">Pay today</button>
+
+      <div class="paid-badge" id="todayBadge">Not yet</div>
+
     </div>
-  </div>
+
+    <button class="primary-btn" id="payTodayBtn" onclick="markMyContribution()">
+      YES, I CONTRIBUTED 💕
+    </button>
+
+  </section>
 
   <div class="section-title">
-    <h2>How we're doing</h2>
+    <h2>The countdown</h2>
   </div>
 
-  <div class="card">
-    <div class="card-label">Club goal</div>
-    <div id="clubGoalText" class="card-value">R0</div>
-    <div id="clubGoalSub" class="card-small">Keep going!</div>
-  </div>
+  <div class="countdown">
 
-</section>
+    <div class="countdown-icon">🎯</div>
 
-<!-- MEMBERS -->
-<section id="membersScreen" class="screen">
-
-  <div class="section-title">
-    <h2>Our club 💗</h2>
-    <button class="section-link" onclick="openMembersModal()">Edit</button>
-  </div>
-
-  <div id="membersList" class="card"></div>
-
-  <div class="section-title">
-    <h2>Today's progress</h2>
-  </div>
-
-  <div id="memberProgressList" class="card"></div>
-
-</section>
-
-<!-- PROGRESS -->
-<section id="progressScreen" class="screen">
-
-  <div class="section-title">
-    <h2>Our progress 📈</h2>
-  </div>
-
-  <div class="card">
-    <div id="bigProgress" class="big-progress" style="--percent:0%">
-      <div class="big-progress-inner">
-        <div id="bigProgressPercent" class="big-progress-percent">0%</div>
-        <div class="big-progress-label">of our goal</div>
+    <div>
+      <div class="countdown-number" id="daysRemaining">0 days</div>
+      <div class="countdown-label" id="countdownSub">
+        until the goal
       </div>
     </div>
 
-    <div style="text-align:center">
-      <div class="card-label">Saved so far</div>
-      <div id="bigSaved" class="money">R0</div>
-      <div id="bigGoal" class="card-small">Goal: R0</div>
-    </div>
   </div>
 
   <div class="section-title">
-    <h2>Milestones 🏆</h2>
+    <h2>We're getting there ✨</h2>
+    <button class="small-link" onclick="showScreen('progress')">See all</button>
   </div>
 
-  <div id="milestones" class="card"></div>
-
-  <div class="section-title">
-    <h2>Your contribution calendar</h2>
-  </div>
-
-  <div class="card">
-    <div id="calendar" class="calendar"></div>
-  </div>
-
-</section>
-
-<!-- MORE -->
-<section id="moreScreen" class="screen">
-
-  <div class="section-title">
-    <h2>More</h2>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Your club</div>
-    <div id="moreClubName" class="card-value">—</div>
-    <div id="moreSavingFor" class="card-small">—</div>
-  </div>
-
-  <div class="section-title">
-    <h2>Invite your people 💌</h2>
-  </div>
-
-  <div class="card">
-    <div style="text-align:center">
-      <div class="card-label">Club invite code</div>
-      <div id="moreInviteCode" class="invite-code">—</div>
-      <button class="secondary" onclick="shareInvite()">Share on WhatsApp</button>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h2>Club details</h2>
-  </div>
-
-  <div id="clubDetails" class="card"></div>
-
-  <div class="section-title">
-    <h2>Settings</h2>
-  </div>
-
-  <div class="card">
-    <button class="welcome-card" style="width:100%;margin:0" onclick="openSettingsModal()">
-      <strong>⚙️ Club settings</strong>
-      <span>Update your club details.</span>
-    </button>
-
-    <button class="welcome-card danger" style="width:100%;margin:10px 0 0" onclick="leaveDevice()">
-      <strong>👋 Leave this device</strong>
-      <span>This only removes this device's saved access.</span>
-    </button>
-  </div>
-
-</section>
+  <div class="milestones" id="milestonesHome"></div>
 
 </main>
 
-<nav class="bottom-nav">
-  <button class="nav-btn active" onclick="showScreen('homeScreen',this)">
-    <span class="nav-icon">🏠</span>Home
+
+<!-- GIRLS -->
+
+<main id="girlsScreen" class="screen">
+
+  <div class="eyebrow">The squad 👯</div>
+  <h1>Meet the crew.</h1>
+
+  <p style="color:var(--muted);font-size:13px;line-height:1.5">
+    Everybody contributes. Everybody gets to celebrate the wins.
+  </p>
+
+  <div class="section-title">
+    <h2>Who's in? 💕</h2>
+  </div>
+
+  <div class="member-list" id="memberList"></div>
+
+</main>
+
+
+<!-- PROGRESS -->
+
+<main id="progressScreen" class="screen">
+
+  <div class="eyebrow">Look at us go 📈</div>
+  <h1>Our progress.</h1>
+
+  <section class="big-progress">
+
+    <div class="progress-circle" id="progressCircle">
+
+      <div class="circle-content">
+        <div class="circle-percent" id="circlePercent">0%</div>
+        <div class="circle-label">complete</div>
+      </div>
+
+    </div>
+
+    <h2 id="progressAmount">R0 saved</h2>
+
+    <p style="color:var(--muted);font-size:12px;margin-top:5px">
+      Target: <span id="progressGoal">R0</span>
+    </p>
+
+  </section>
+
+  <div class="section-title">
+    <h2>Milestones 🎯</h2>
+  </div>
+
+  <div class="milestones" id="milestonesProgress"></div>
+
+  <div class="section-title">
+    <h2>Contribution calendar 📅</h2>
+  </div>
+
+  <div class="calendar">
+
+    <div class="calendar-header">
+
+      <button class="icon-btn" onclick="changeMonth(-1)">‹</button>
+
+      <div class="calendar-title" id="calendarTitle"></div>
+
+      <button class="icon-btn" onclick="changeMonth(1)">›</button>
+
+    </div>
+
+    <div class="calendar-grid" id="calendarGrid"></div>
+
+    <div class="note">
+      💗 Green = your contribution &nbsp; • &nbsp;
+      🔴 Red = school/work day missed
+    </div>
+
+  </div>
+
+</main>
+
+
+<!-- MORE -->
+
+<main id="moreScreen" class="screen">
+
+  <div class="eyebrow">Club stuff ⚙️</div>
+  <h1>More.</h1>
+
+  <div class="invite-box">
+
+    <div style="font-size:11px;font-weight:700;color:var(--muted)">
+      YOUR CLUB INVITE CODE
+    </div>
+
+    <div class="invite-code" id="inviteCodeDisplay">------</div>
+
+    <button class="secondary-btn" onclick="copyInviteCode()">
+      COPY INVITE CODE 📋
+    </button>
+
+    <button class="secondary-btn" onclick="shareInvite()">
+      SHARE WITH THE SQUAD 💕
+    </button>
+
+  </div>
+
+  <div class="section-title">
+    <h2>Achievements 🏆</h2>
+  </div>
+
+  <div class="achievement-grid" id="achievementGrid"></div>
+
+  <div class="section-title">
+    <h2>Club settings</h2>
+  </div>
+
+  <div class="form-card">
+
+    <div class="form-group">
+      <label>Club name</label>
+      <input id="settingClubName" type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Saving for</label>
+      <input id="settingSavingFor" type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Total goal (R)</label>
+      <input id="settingGoal" type="number" min="1">
+    </div>
+
+    <div class="form-group">
+      <label>Contribution amount (R)</label>
+      <input id="settingContribution" type="number" min="1">
+    </div>
+
+    <div class="form-group">
+      <label>Frequency</label>
+
+      <select id="settingFrequency">
+        <option value="school days">School days</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+
+    </div>
+
+    <button class="primary-btn" onclick="saveSettings()">
+      SAVE CLUB SETTINGS 💕
+    </button>
+
+  </div>
+
+  <div class="note">
+    💡 Piggy Bank tracks contributions. It does not hold, transfer or process anyone's money.
+  </div>
+
+</main>
+
+</div>
+
+
+<!-- NAV -->
+
+<nav class="bottom-nav" id="bottomNav">
+
+  <button class="nav-btn active" data-screen="home" onclick="showScreen('home')">
+    <span class="nav-icon">🏠</span>
+    Home
   </button>
-  <button class="nav-btn" onclick="showScreen('membersScreen',this)">
-    <span class="nav-icon">👯</span>Club
+
+  <button class="nav-btn" data-screen="girls" onclick="showScreen('girls')">
+    <span class="nav-icon">👯</span>
+    Squad
   </button>
-  <button class="nav-btn" onclick="showScreen('progressScreen',this)">
-    <span class="nav-icon">📈</span>Progress
+
+  <button class="nav-btn" data-screen="progress" onclick="showScreen('progress')">
+    <span class="nav-icon">📊</span>
+    Progress
   </button>
-  <button class="nav-btn" onclick="showScreen('moreScreen',this)">
-    <span class="nav-icon">✨</span>More
+
+  <button class="nav-btn" data-screen="more" onclick="showScreen('more')">
+    <span class="nav-icon">🏆</span>
+    More
   </button>
+
 </nav>
 
+
+<!-- WELCOME -->
+
+<div class="welcome show" id="welcome">
+
+  <div class="welcome-card">
+
+    <div class="welcome-icon">💕</div>
+
+    <div class="eyebrow">Welcome to</div>
+
+    <h1>Piggy Bank</h1>
+
+    <p>
+      Small contributions. Big goals.<br>
+      Create a club or join your squad with an invite code.
+    </p>
+
+    <button class="primary-btn" onclick="openCreateClub()">
+      CREATE A CLUB ✨
+    </button>
+
+    <button class="secondary-btn" onclick="openJoinClub()">
+      JOIN A CLUB 👯
+    </button>
+
+  </div>
+
 </div>
 
-<!-- MODALS -->
-<div id="modalBackdrop" class="modal-backdrop hidden" onclick="closeModalIfBackdrop(event)">
-  <div id="modal" class="modal"></div>
-</div>
 
-<div id="toast" class="toast hidden"></div>
+<!-- CREATE CLUB -->
 
-<script>
-/* =========================================================
-   SUPABASE
-========================================================= */
+<div class="modal-backdrop" id="createModal">
 
-const SUPABASE_URL = "https://hyzgpwnfbcglzgmthhcr.supabase.co";
+  <div class="modal">
 
-/*
-  KEEP YOUR COMPLETE KEY HERE.
-  It should begin with:
-  sb_publishable_
-*/
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_m5EYoQSXmDC5q9MeLtuJ7Q_ZNN6v8JS";
+    <div class="modal-head">
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+      <div>
+        <div class="eyebrow">Let's build your club</div>
+        <h2>Create a club 💕</h2>
+      </div>
 
-/* =========================================================
-   APP STATE
-========================================================= */
+      <button class="close-btn" onclick="closeModals()">✕</button>
 
-let state = {
-  club: null,
-  members: [],
-  contributions: [],
-  currentMemberId: null,
-  currentMember: null,
-  selectedAvatar: "👩🏽",
-  currentScreen: "homeScreen"
-};
+    </div>
 
-const STORAGE_KEY = "piggyBankIdentity";
-
-const avatars = [
-  "👩🏽","👩🏾","👩🏿","👩🏼","👩🏻",
-  "👩🏽‍🦱","👩🏾‍🦱","👩🏿‍🦱","👩🏼‍🦱",
-  "🧑🏽","🧑🏾","🧑🏿","👩🏽‍🎤","🦋",
-  "🌸","⭐","💗","🐷"
-];
-
-/* =========================================================
-   INIT
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", boot);
-
-async function boot(){
-  if(SUPABASE_PUBLISHABLE_KEY === "PASTE_YOUR_PUBLISHABLE_KEY_HERE"){
-    showWelcome();
-    return;
-  }
-
-  const saved = getIdentity();
-
-  if(!saved){
-    showWelcome();
-    return;
-  }
-
-  await loadClub(saved.clubId, saved.memberId);
-}
-
-/* =========================================================
-   IDENTITY
-========================================================= */
-
-function saveIdentity(clubId, memberId){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    clubId,
-    memberId
-  }));
-}
-
-function getIdentity(){
-  try{
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  }catch(e){
-    return null;
-  }
-}
-
-function leaveDevice(){
-  if(!confirm("Leave Piggy Bank on this device? Your club will not be deleted.")) return;
-
-  localStorage.removeItem(STORAGE_KEY);
-  state = {
-    club:null,
-    members:[],
-    contributions:[],
-    currentMemberId:null,
-    currentMember:null
-  };
-
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("welcomeScreen").classList.remove("hidden");
-  showToast("You're signed out on this device.");
-}
-
-/* =========================================================
-   SCREEN MANAGEMENT
-========================================================= */
-
-function showScreen(id, button){
-  document.querySelectorAll(".screen").forEach(x => x.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-
-  document.querySelectorAll(".nav-btn").forEach(x => x.classList.remove("active"));
-  if(button) button.classList.add("active");
-
-  state.currentScreen = id;
-
-  if(id === "homeScreen") renderHome();
-  if(id === "membersScreen") renderMembers();
-  if(id === "progressScreen") renderProgress();
-  if(id === "moreScreen") renderMore();
-}
-
-function openMore(){
-  const btn = document.querySelectorAll(".nav-btn")[3];
-  showScreen("moreScreen",btn);
-}
-
-/* =========================================================
-   WELCOME / CREATE / JOIN
-========================================================= */
-
-function showWelcome(){
-  document.getElementById("loadingScreen").classList.add("hidden");
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("welcomeScreen").classList.remove("hidden");
-}
-
-function openCreateClub(){
-  state.selectedAvatar = "👩🏽";
-
-  openModal(`
-    <h2>Create your club 🐷</h2>
-    <div class="modal-sub">Set the goal, invite your people and start saving together.</div>
-
-    <div class="field">
+    <div class="form-group">
       <label>Club name</label>
-      <input id="createClubName" placeholder="e.g. The Matric Girls">
+      <input id="createName" placeholder="The Matric Girls">
     </div>
 
-    <div class="field">
+    <div class="form-group">
       <label>What are you saving for?</label>
-      <input id="createSavingFor" placeholder="e.g. Phones">
+      <input id="createSavingFor" placeholder="New phones">
     </div>
 
-    <div class="form-grid">
-      <div class="field">
-        <label>Total goal (R)</label>
-        <input id="createGoal" type="number" min="1" placeholder="20000">
-      </div>
-
-      <div class="field">
-        <label>Members</label>
-        <input id="createMemberCount" type="number" min="1" placeholder="10">
-      </div>
+    <div class="form-group">
+      <label>Total goal (R)</label>
+      <input id="createGoal" type="number" placeholder="20000">
     </div>
 
-    <div class="form-grid">
-      <div class="field">
-        <label>Target per member (R)</label>
-        <input id="createMemberTarget" type="number" min="0" placeholder="2000">
-      </div>
-
-      <div class="field">
-        <label>Contribution (R)</label>
-        <input id="createContribution" type="number" min="0.01" step="0.01" placeholder="10">
-      </div>
+    <div class="form-group">
+      <label>Number of members</label>
+      <input id="createMembers" type="number" min="1" placeholder="10">
     </div>
 
-    <div class="field">
+    <div class="form-group">
+      <label>Target per member (R)</label>
+      <input id="createMemberTarget" type="number" min="1" placeholder="2000">
+    </div>
+
+    <div class="form-group">
+      <label>Contribution amount (R)</label>
+      <input id="createContribution" type="number" min="1" value="10">
+    </div>
+
+    <div class="form-group">
       <label>Frequency</label>
+
       <select id="createFrequency">
         <option value="school days">School days</option>
         <option value="daily">Daily</option>
         <option value="weekly">Weekly</option>
         <option value="monthly">Monthly</option>
       </select>
+
     </div>
 
-    <div class="field">
+    <div class="form-group">
       <label>Your name</label>
-      <input id="createYourName" placeholder="Your name or nickname">
+      <input id="createCreatorName" placeholder="Your name">
     </div>
 
-    <div class="field">
-      <label>Your avatar</label>
-      <div id="createAvatars" class="avatar-picker">
-        ${avatarPickerHtml()}
+    <div class="form-group">
+      <label>Pick your vibe</label>
+      <input id="createAvatar" value="💕" maxlength="2">
+    </div>
+
+    <div id="createError"></div>
+
+    <button class="primary-btn" onclick="createClub()">
+      CREATE MY CLUB 💕
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- JOIN CLUB -->
+
+<div class="modal-backdrop" id="joinModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <div>
+        <div class="eyebrow">You're invited 👯</div>
+        <h2>Join a club</h2>
       </div>
+
+      <button class="close-btn" onclick="closeModals()">✕</button>
+
     </div>
 
-    <div class="modal-actions">
-      <button class="secondary" onclick="closeModal()">Cancel</button>
-      <button class="primary pink" onclick="createClub()">Create club</button>
+    <div class="form-group">
+      <label>Invite code</label>
+      <input
+        id="joinCode"
+        placeholder="ABC123"
+        maxlength="6"
+        style="text-transform:uppercase;letter-spacing:3px"
+      >
     </div>
-  `);
+
+    <div class="form-group">
+      <label>Your name</label>
+      <input id="joinName" placeholder="Your name">
+    </div>
+
+    <div class="form-group">
+      <label>Pick your vibe</label>
+      <input id="joinAvatar" value="💕" maxlength="2">
+    </div>
+
+    <div id="joinError"></div>
+
+    <button class="primary-btn" onclick="joinClub()">
+      JOIN THE CLUB 💕
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- CELEBRATION -->
+
+<div class="celebration" id="celebration">
+
+  <div class="celebration-card">
+
+    <div class="celebration-icon" id="celebrationIcon">🎉</div>
+
+    <h2 id="celebrationTitle">WE DID IT!</h2>
+
+    <p id="celebrationText">
+      Another milestone unlocked.
+    </p>
+
+    <button class="primary-btn" onclick="closeCelebration()">
+      BACK TO THE CLUB 💕
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://hyzgpwnfbcglzgmthhcr.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_m5EYoQSXmDC5q9MeLtuJ7Q_ZNN6v8JS";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================================
+   LOCAL DEVICE MEMORY
+========================================================= */
+
+const DEVICE_KEY = "piggyBankDevice";
+
+let device = JSON.parse(
+  localStorage.getItem(DEVICE_KEY) || "null"
+);
+
+let club = null;
+let members = [];
+let contributions = [];
+let me = null;
+
+let calendarDate = new Date();
+
+let theme =
+  localStorage.getItem("piggyBankTheme") || "light";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function money(number){
+
+  return "R" +
+    Math.round(Number(number || 0))
+      .toLocaleString("en-ZA");
+
 }
 
-async function createClub(){
 
-  const name = val("createClubName");
-  const savingFor = val("createSavingFor");
-  const goal = Number(val("createGoal"));
-  const memberCount = Number(val("createMemberCount"));
-  const memberTarget = Number(val("createMemberTarget"));
-  const contribution = Number(val("createContribution"));
-  const frequency = val("createFrequency");
-  const yourName = val("createYourName");
+function dateKey(date = new Date()){
 
-  if(!name || !savingFor || !goal || !memberCount || !contribution || !yourName){
-    showToast("Please complete all required fields.");
-    return;
+  const y = date.getFullYear();
+
+  const m =
+    String(date.getMonth()+1).padStart(2,"0");
+
+  const d =
+    String(date.getDate()).padStart(2,"0");
+
+  return `${y}-${m}-${d}`;
+
+}
+
+
+function isSchoolDay(date){
+
+  const day = date.getDay();
+
+  return day >= 1 && day <= 5;
+
+}
+
+
+function formatDate(date){
+
+  return date.toLocaleDateString("en-ZA",{
+    weekday:"long",
+    day:"numeric",
+    month:"long"
+  });
+
+}
+
+
+function escapeHtml(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text || "";
+
+  return div.innerHTML;
+
+}
+
+
+function showError(elementId,message){
+
+  document.getElementById(elementId).innerHTML =
+    `<div class="error-box">${escapeHtml(message)}</div>`;
+
+}
+
+
+/* =========================================================
+   DYNAMIC GOAL LANGUAGE
+========================================================= */
+
+function getSavingFor(){
+
+  return String(
+    club?.["Saving for"] || "your goal"
+  ).trim();
+
+}
+
+
+function getGoalPhrase(){
+
+  const value = getSavingFor();
+
+  const lower = value.toLowerCase();
+
+  if(
+    lower.endsWith("s") ||
+    lower.includes("phones") ||
+    lower.includes("shoes") ||
+    lower.includes("tickets")
+  ){
+
+    return `Let's get these ${value.toLowerCase()}!`;
+
   }
 
-  if(goal <= 0 || memberCount <= 0 || contribution <= 0){
-    showToast("Please enter valid amounts.");
-    return;
+  return `Let's get this ${value.toLowerCase()}!`;
+
+}
+
+
+/* =========================================================
+   INVITE CODE
+========================================================= */
+
+function generateInviteCode(){
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let code = "";
+
+  for(let i=0;i<6;i++){
+
+    code +=
+      chars[Math.floor(Math.random()*chars.length)];
+
   }
 
-  const button = document.querySelector(".modal .primary");
-  if(button) button.disabled = true;
+  return code;
+
+}
+
+
+async function getUniqueInviteCode(){
+
+  for(let attempt=0;attempt<10;attempt++){
+
+    const code = generateInviteCode();
+
+    const {data,error} =
+      await supabaseClient
+        .from("Clubs")
+        .select("id")
+        .eq("Invite Code",code)
+        .maybeSingle();
+
+    if(error) throw error;
+
+    if(!data) return code;
+
+  }
+
+  throw new Error(
+    "Could not generate a unique invite code."
+  );
+
+}
+
+
+/* =========================================================
+   CLUB STORAGE
+========================================================= */
+
+function saveDevice(){
+
+  localStorage.setItem(
+    DEVICE_KEY,
+    JSON.stringify(device)
+  );
+
+}
+
+
+function clearDevice(){
+
+  localStorage.removeItem(DEVICE_KEY);
+
+  device = null;
+
+}
+
+
+/* =========================================================
+   LOAD EXISTING CLUB
+========================================================= */
+
+async function loadSavedClub(){
+
+  if(!device?.clubId || !device?.memberId){
+
+    showWelcome();
+
+    return;
+
+  }
 
   try{
 
-    let club = null;
+    const {data:clubData,error:clubError} =
+      await supabaseClient
+        .from("Clubs")
+        .select("*")
+        .eq("id",device.clubId)
+        .single();
 
-    for(let attempt = 0; attempt < 5; attempt++){
+    if(clubError) throw clubError;
 
-      const inviteCode = generateInviteCode();
+    club = clubData;
 
-      const { data, error } = await supabase
+    const {data:memberData,error:memberError} =
+      await supabaseClient
+        .from("Club Members")
+        .select("*")
+        .eq("id",device.memberId)
+        .eq("club_id",device.clubId)
+        .single();
+
+    if(memberError) throw memberError;
+
+    me = memberData;
+
+    await loadClubData();
+
+    hideWelcome();
+
+    render();
+
+    showScreen("home");
+
+  }catch(error){
+
+    console.error(error);
+
+    clearDevice();
+
+    showWelcome();
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD CLUB DATA
+========================================================= */
+
+async function loadClubData(){
+
+  const {data:memberData,error:memberError} =
+    await supabaseClient
+      .from("Club Members")
+      .select("*")
+      .eq("club_id",club.id)
+      .order("id");
+
+  if(memberError) throw memberError;
+
+  members = memberData || [];
+
+  const {data:contributionData,error:contributionError} =
+    await supabaseClient
+      .from("Contributions")
+      .select("*")
+      .eq("club_id",club.id)
+      .order("contribution_date",{ascending:true});
+
+  if(contributionError) throw contributionError;
+
+  contributions = contributionData || [];
+
+}
+
+
+/* =========================================================
+   CREATE CLUB
+========================================================= */
+
+async function createClub(){
+
+  const name =
+    document.getElementById("createName").value.trim();
+
+  const savingFor =
+    document.getElementById("createSavingFor").value.trim();
+
+  const goal =
+    Number(document.getElementById("createGoal").value);
+
+  const memberCount =
+    Number(document.getElementById("createMembers").value);
+
+  const memberTarget =
+    Number(document.getElementById("createMemberTarget").value);
+
+  const contributionAmount =
+    Number(document.getElementById("createContribution").value);
+
+  const frequency =
+    document.getElementById("createFrequency").value;
+
+  const creatorName =
+    document.getElementById("createCreatorName").value.trim();
+
+  const avatar =
+    document.getElementById("createAvatar").value.trim() || "💕";
+
+  if(
+    !name ||
+    !savingFor ||
+    goal <= 0 ||
+    memberCount <= 0 ||
+    memberTarget <= 0 ||
+    contributionAmount <= 0 ||
+    !creatorName
+  ){
+
+    showError(
+      "createError",
+      "Please fill in all the club details, including your name 💕"
+    );
+
+    return;
+
+  }
+
+  const button =
+    document.querySelector("#createModal .primary-btn");
+
+  button.disabled = true;
+
+  button.textContent = "CREATING... 💕";
+
+  try{
+
+    const inviteCode =
+      await getUniqueInviteCode();
+
+    const {data:createdClub,error:clubError} =
+      await supabaseClient
         .from("Clubs")
         .insert({
-          "Name": name,
-          "Saving for": savingFor,
-          "Goal": goal,
-          "Member Count": memberCount,
-          "Member Target": memberTarget || null,
-          "Contribution Amount": contribution,
-          "Frequency": frequency,
-          "Invite Code": inviteCode
+
+          "Name":name,
+          "Saving for":savingFor,
+          "Goal":goal,
+          "Member Count":memberCount,
+          "Member Target":memberTarget,
+          "Contribution Amount":contributionAmount,
+          "Frequency":frequency,
+          "Invite Code":inviteCode
+
         })
         .select()
         .single();
 
-      if(!error){
-        club = data;
-        break;
-      }
+    if(clubError) throw clubError;
 
-      if(!String(error.message).toLowerCase().includes("duplicate")){
-        throw error;
-      }
-    }
+    const {data:createdMember,error:memberError} =
+      await supabaseClient
+        .from("Club Members")
+        .insert({
 
-    if(!club){
-      throw new Error("Could not create a unique invite code.");
-    }
+          name:creatorName,
+          avatar:avatar,
+          role:"admin",
+          club_id:createdClub.id
 
-    const { data: member, error: memberError } = await supabase
-      .from("Club Members")
-      .insert({
-        name: yourName,
-        avatar: state.selectedAvatar,
-        role: "admin",
-        club_id: club.id
-      })
-      .select()
-      .single();
+        })
+        .select()
+        .single();
 
     if(memberError) throw memberError;
 
-    saveIdentity(club.id, member.id);
+    club = createdClub;
 
-    closeModal();
+    me = createdMember;
 
-    await loadClub(club.id, member.id);
+    device = {
 
-    showToast("Club created! 🎉");
+      clubId:createdClub.id,
+
+      memberId:createdMember.id
+
+    };
+
+    saveDevice();
+
+    await loadClubData();
+
+    closeModals();
+
+    hideWelcome();
+
+    render();
+
+    showScreen("home");
+
+    showCelebration(
+      "💕",
+      "YOUR CLUB IS LIVE!",
+      `Invite your squad with code ${inviteCode}.`
+    );
 
   }catch(error){
+
     console.error(error);
-    showToast("Couldn't create the club: " + error.message);
-    if(button) button.disabled = false;
+
+    showError(
+      "createError",
+      error.message ||
+      "Something went wrong creating the club."
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent = "CREATE MY CLUB 💕";
+
   }
+
 }
 
-function openJoinClub(){
 
-  state.selectedAvatar = "👩🏽";
-
-  openModal(`
-    <h2>Join a club 💗</h2>
-    <div class="modal-sub">Enter the invite code your club creator shared with you.</div>
-
-    <div class="field">
-      <label>Invite code</label>
-      <input id="joinInviteCode" placeholder="e.g. PIGGY-ABCD" style="text-transform:uppercase">
-    </div>
-
-    <div class="field">
-      <label>Your name</label>
-      <input id="joinYourName" placeholder="Your name or nickname">
-    </div>
-
-    <div class="field">
-      <label>Your avatar</label>
-      <div id="joinAvatars" class="avatar-picker">
-        ${avatarPickerHtml()}
-      </div>
-    </div>
-
-    <div class="modal-actions">
-      <button class="secondary" onclick="closeModal()">Cancel</button>
-      <button class="primary pink" onclick="joinClub()">Join club</button>
-    </div>
-  `);
-}
+/* =========================================================
+   JOIN CLUB
+========================================================= */
 
 async function joinClub(){
 
-  const code = val("joinInviteCode").toUpperCase().trim();
-  const name = val("joinYourName");
+  const code =
+    document.getElementById("joinCode")
+      .value
+      .trim()
+      .toUpperCase();
 
-  if(!code || !name){
-    showToast("Enter your invite code and name.");
+  const name =
+    document.getElementById("joinName")
+      .value
+      .trim();
+
+  const avatar =
+    document.getElementById("joinAvatar")
+      .value
+      .trim() || "💕";
+
+  if(code.length !== 6 || !name){
+
+    showError(
+      "joinError",
+      "Enter the 6-character invite code and your name."
+    );
+
     return;
+
   }
 
-  const button = document.querySelector(".modal .primary");
-  if(button) button.disabled = true;
+  const button =
+    document.querySelector("#joinModal .primary-btn");
+
+  button.disabled = true;
+
+  button.textContent = "JOINING... 💕";
 
   try{
 
-    const { data: club, error } = await supabase
-      .from("Clubs")
-      .select("*")
-      .eq("Invite Code", code)
-      .maybeSingle();
+    const {data:foundClub,error:clubError} =
+      await supabaseClient
+        .from("Clubs")
+        .select("*")
+        .eq("Invite Code",code)
+        .maybeSingle();
 
-    if(error) throw error;
+    if(clubError) throw clubError;
 
-    if(!club){
-      showToast("We couldn't find that club.");
-      if(button) button.disabled = false;
-      return;
+    if(!foundClub){
+
+      throw new Error(
+        "We couldn't find that club. Check the invite code."
+      );
+
     }
 
-    const { data: existingMembers, error: membersError } = await supabase
-      .from("Club Members")
-      .select("*")
-      .eq("club_id", club.id);
+    const {count,error:countError} =
+      await supabaseClient
+        .from("Club Members")
+        .select("*",{count:"exact",head:true})
+        .eq("club_id",foundClub.id);
 
-    if(membersError) throw membersError;
+    if(countError) throw countError;
 
-    const expected = Number(club["Member Count"] || 0);
+    if(
+      foundClub["Member Count"] &&
+      count >= Number(foundClub["Member Count"])
+    ){
 
-    if(expected && existingMembers.length >= expected){
-      showToast("This club is already full.");
-      if(button) button.disabled = false;
-      return;
+      throw new Error(
+        "This club is already full."
+      );
+
     }
 
-    const { data: member, error: memberError } = await supabase
-      .from("Club Members")
+    const {data:createdMember,error:memberError} =
+      await supabaseClient
+        .from("Club Members")
+        .insert({
+
+          name:name,
+          avatar:avatar,
+          role:"member",
+          club_id:foundClub.id
+
+        })
+        .select()
+        .single();
+
+    if(memberError) throw memberError;
+
+    club = foundClub;
+
+    me = createdMember;
+
+    device = {
+
+      clubId:foundClub.id,
+
+      memberId:createdMember.id
+
+    };
+
+    saveDevice();
+
+    await loadClubData();
+
+    closeModals();
+
+    hideWelcome();
+
+    render();
+
+    showScreen("home");
+
+    showCelebration(
+      "👯",
+      "YOU'RE IN!",
+      `Welcome to ${foundClub["Name"]}.`
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    showError(
+      "joinError",
+      error.message ||
+      "Something went wrong joining the club."
+    );
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent = "JOIN THE CLUB 💕";
+
+  }
+
+}
+
+
+/* =========================================================
+   CALCULATIONS
+========================================================= */
+
+function getTotalSaved(){
+
+  return contributions.reduce(
+    (total,item) =>
+      total + Number(item.amount || 0),
+    0
+  );
+
+}
+
+
+function getGoal(){
+
+  return Number(club?.["Goal"] || 0);
+
+}
+
+
+function getPercent(){
+
+  const goal = getGoal();
+
+  if(!goal) return 0;
+
+  return Math.min(
+    100,
+    (getTotalSaved()/goal)*100
+  );
+
+}
+
+
+function getDailyContribution(){
+
+  return Number(
+    club?.["Contribution Amount"] || 0
+  );
+
+}
+
+
+/* =========================================================
+   CLUB STREAK
+   Everyone must contribute on each qualifying day.
+========================================================= */
+
+function getClubStreak(){
+
+  if(!members.length) return 0;
+
+  let streak = 0;
+
+  let cursor = new Date();
+
+  const frequency =
+    club?.["Frequency"] || "school days";
+
+  while(streak < 1000){
+
+    const qualifies =
+      frequency === "school days"
+        ? isSchoolDay(cursor)
+        : true;
+
+    if(qualifies){
+
+      const key = dateKey(cursor);
+
+      const paidMembers =
+        new Set(
+          contributions
+            .filter(c =>
+              c.contribution_date === key
+            )
+            .map(c => String(c.member_id))
+        );
+
+      const everyonePaid =
+        members.every(member =>
+          paidMembers.has(String(member.id))
+        );
+
+      if(everyonePaid){
+
+        streak++;
+
+      }else{
+
+        break;
+
+      }
+
+    }
+
+    cursor.setDate(
+      cursor.getDate()-1
+    );
+
+  }
+
+  return streak;
+
+}
+
+
+/* =========================================================
+   YOUR STREAK
+========================================================= */
+
+function getMemberStreak(memberId){
+
+  if(!memberId) return 0;
+
+  let streak = 0;
+
+  let cursor = new Date();
+
+  const frequency =
+    club?.["Frequency"] || "school days";
+
+  while(streak < 1000){
+
+    const qualifies =
+      frequency === "school days"
+        ? isSchoolDay(cursor)
+        : true;
+
+    if(qualifies){
+
+      const key = dateKey(cursor);
+
+      const paid =
+        contributions.some(c =>
+          String(c.member_id) === String(memberId) &&
+          c.contribution_date === key
+        );
+
+      if(paid){
+
+        streak++;
+
+      }else{
+
+        break;
+
+      }
+
+    }
+
+    cursor.setDate(
+      cursor.getDate()-1
+    );
+
+  }
+
+  return streak;
+
+}
+
+
+function getMemberTotal(memberId){
+
+  return contributions
+    .filter(c => String(c.member_id) === String(memberId))
+    .reduce(
+      (total,c) =>
+        total + Number(c.amount || 0),
+      0
+    );
+
+}
+
+
+function getMemberPaidToday(memberId){
+
+  const today =
+    dateKey();
+
+  return contributions.some(c =>
+    String(c.member_id) === String(memberId) &&
+    c.contribution_date === today
+  );
+
+}
+
+
+function getPaidMembersToday(){
+
+  const today =
+    dateKey();
+
+  return new Set(
+    contributions
+      .filter(c =>
+        c.contribution_date === today
+      )
+      .map(c => String(c.member_id))
+  );
+
+}
+
+
+function getOutstandingToday(){
+
+  const target =
+    getDailyContribution() *
+    members.length;
+
+  const paidMembers =
+    getPaidMembersToday();
+
+  const paidCount =
+    members.filter(member =>
+      paidMembers.has(String(member.id))
+    ).length;
+
+  const paidAmount =
+    paidCount * getDailyContribution();
+
+  return {
+    target,
+    paidCount,
+    paidAmount,
+    outstanding:Math.max(0,target-paidAmount)
+  };
+
+}
+
+
+function getSchoolDaysRemaining(){
+
+  const remaining =
+    Math.max(
+      0,
+      getGoal()-getTotalSaved()
+    );
+
+  const daily =
+    getDailyContribution() *
+    Math.max(1,members.length);
+
+  if(!daily) return 0;
+
+  return Math.ceil(
+    remaining/daily
+  );
+
+}
+
+
+function getMascot(){
+
+  const percent = getPercent();
+
+  if(percent >= 100) return "👑";
+
+  if(percent >= 75) return "😎";
+
+  if(percent >= 50) return "🤩";
+
+  if(percent >= 25) return "🥰";
+
+  return "💰";
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  if(!club) return;
+
+  const total =
+    getTotalSaved();
+
+  const goal =
+    getGoal();
+
+  const percent =
+    getPercent();
+
+  const remaining =
+    Math.max(0,goal-total);
+
+  const savingFor =
+    getSavingFor();
+
+  const myStreak =
+    me ? getMemberStreak(me.id) : 0;
+
+  const todayStats =
+    getOutstandingToday();
+
+  document.getElementById("clubNameTop").textContent =
+    club["Name"];
+
+  document.getElementById("homeTitle").textContent =
+    getGoalPhrase();
+
+  document.getElementById("goalLabel").textContent =
+    "🎯 " + savingFor;
+
+  document.getElementById("heroAmount").textContent =
+    money(total);
+
+  document.getElementById("heroGoal").textContent =
+    money(goal);
+
+  document.getElementById("mainProgress").style.width =
+    percent + "%";
+
+  document.getElementById("mainPercent").textContent =
+    percent.toFixed(percent % 1 ? 1 : 0) + "%";
+
+  document.getElementById("mainRemaining").textContent =
+    remaining > 0
+      ? money(remaining) + " to go"
+      : "GOAL REACHED 🎉";
+
+  document.getElementById("memberCount").textContent =
+    members.length;
+
+  document.getElementById("memberTarget").textContent =
+    money(club["Member Target"]);
+
+  /*
+    This tile is intentionally YOUR streak.
+    The club streak is displayed as the collective streak
+    only when everybody has contributed.
+  */
+  document.getElementById("clubStreak").textContent =
+    myStreak +
+    (myStreak === 1 ? " day" : " days");
+
+  document.querySelector("#clubStreak")
+    .parentElement
+    .querySelector(".stat-label")
+    .textContent =
+      "your streak";
+
+  document.getElementById("dailyTotal").textContent =
+    money(todayStats.target);
+
+  const outstandingEl =
+    document.getElementById("dailyOutstanding");
+
+  if(todayStats.paidCount >= members.length){
+
+    outstandingEl.textContent =
+      "✓ Everyone's paid";
+
+    outstandingEl.style.color =
+      "var(--green)";
+
+  }else{
+
+    outstandingEl.textContent =
+      `${todayStats.paidCount} of ${members.length} paid · ${money(todayStats.outstanding)} outstanding`;
+
+    outstandingEl.style.color =
+      "var(--muted)";
+
+  }
+
+  document.getElementById("mascot").textContent =
+    getMascot();
+
+  document.getElementById("inviteCodeDisplay").textContent =
+    club["Invite Code"];
+
+  renderToday();
+
+  renderCountdown();
+
+  renderMilestones();
+
+  renderMembers();
+
+  renderProgress();
+
+  renderCalendar();
+
+  renderAchievements();
+
+  renderSettings();
+
+}
+
+
+/* =========================================================
+   TODAY
+========================================================= */
+
+function renderToday(){
+
+  const paid =
+    me
+      ? getMemberPaidToday(me.id)
+      : false;
+
+  const today =
+    new Date();
+
+  const frequency =
+    club?.["Frequency"] || "school days";
+
+  document.getElementById("todayDate").textContent =
+    formatDate(today);
+
+  document.getElementById("todayTitle").textContent =
+    `Did you save your ${money(getDailyContribution())}?`;
+
+  document.getElementById("todayBadge").textContent =
+    paid ? "PAID ✓" : "Not yet";
+
+  const button =
+    document.getElementById("payTodayBtn");
+
+  button.textContent =
+    paid
+      ? `${money(getDailyContribution())} SAVED ✓`
+      : `YES, I SAVED ${money(getDailyContribution())} 💕`;
+
+  button.disabled =
+    paid ||
+    (frequency === "school days" &&
+     !isSchoolDay(today));
+
+}
+
+
+/* =========================================================
+   CONTRIBUTION
+========================================================= */
+
+async function markMyContribution(){
+
+  if(!me || !club) return;
+
+  const today =
+    new Date();
+
+  const frequency =
+    club["Frequency"] || "school days";
+
+  if(
+    frequency === "school days" &&
+    !isSchoolDay(today)
+  ){
+
+    alert(
+      "It's the weekend 💕 No school-day contribution needed today!"
+    );
+
+    return;
+
+  }
+
+  const key =
+    dateKey(today);
+
+  if(getMemberPaidToday(me.id)) return;
+
+  const oldPercent =
+    getPercent();
+
+  const oldClubStreak =
+    getClubStreak();
+
+  const amount =
+    getDailyContribution();
+
+  const button =
+    document.getElementById("payTodayBtn");
+
+  button.disabled = true;
+
+  button.textContent =
+    "SAVING... 💕";
+
+  const {data:newContribution,error} =
+    await supabaseClient
+      .from("Contributions")
       .insert({
-        name,
-        avatar: state.selectedAvatar,
-        role: "member",
-        club_id: club.id
+
+        amount:amount,
+
+        contribution_date:key,
+
+        club_id:club.id,
+
+        member_id:me.id
+
       })
       .select()
       .single();
 
-    if(memberError) throw memberError;
-
-    saveIdentity(club.id, member.id);
-
-    closeModal();
-
-    await loadClub(club.id, member.id);
-
-    showToast("You're in! 🥳");
-
-  }catch(error){
-    console.error(error);
-    showToast("Couldn't join the club: " + error.message);
-    if(button) button.disabled = false;
-  }
-}
-
-/* =========================================================
-   LOAD DATA
-========================================================= */
-
-async function loadClub(clubId, memberId){
-
-  document.getElementById("welcomeScreen").classList.add("hidden");
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("loadingScreen").classList.remove("hidden");
-
-  try{
-
-    const { data: club, error: clubError } = await supabase
-      .from("Clubs")
-      .select("*")
-      .eq("id", clubId)
-      .single();
-
-    if(clubError) throw clubError;
-
-    const { data: members, error: membersError } = await supabase
-      .from("Club Members")
-      .select("*")
-      .eq("club_id", clubId)
-      .order("id", {ascending:true});
-
-    if(membersError) throw membersError;
-
-    const { data: contributions, error: contributionsError } = await supabase
-      .from("Contributions")
-      .select("*")
-      .eq("club_id", clubId)
-      .order("contribution_date", {ascending:true});
-
-    if(contributionsError) throw contributionsError;
-
-    const currentMember = members.find(
-      m => Number(m.id) === Number(memberId)
-    );
-
-    if(!currentMember){
-      localStorage.removeItem(STORAGE_KEY);
-      throw new Error("Your member record could not be found.");
-    }
-
-    state.club = club;
-    state.members = members || [];
-    state.contributions = contributions || [];
-    state.currentMemberId = Number(memberId);
-    state.currentMember = currentMember;
-
-    document.getElementById("loadingScreen").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-
-    renderAll();
-
-  }catch(error){
-
-    console.error(error);
-
-    document.getElementById("loadingScreen").classList.add("hidden");
-
-    if(String(error.message).includes("JWT") ||
-       String(error.message).includes("key")){
-      showWelcome();
-    }else{
-      showWelcome();
-      showToast("Couldn't load your club: " + error.message);
-    }
-  }
-}
-
-async function refreshData(){
-  const identity = getIdentity();
-  if(identity){
-    await loadClub(identity.clubId, identity.memberId);
-  }
-}
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-  renderHome();
-  renderMembers();
-  renderProgress();
-  renderMore();
-}
-
-/* =========================================================
-   HOME
-========================================================= */
-
-function renderHome(){
-
-  if(!state.club) return;
-
-  const club = state.club;
-  const savingFor = club["Saving for"] || "goal";
-  const goal = Number(club["Goal"] || 0);
-  const saved = totalSaved();
-  const percent = goal ? Math.min(100,(saved/goal)*100) : 0;
-
-  document.getElementById("headerClubName").textContent =
-    club["Name"] || "Your club";
-
-  document.getElementById("heroTitle").textContent =
-    "Let's get these " + savingFor.toLowerCase() + "!";
-
-  document.getElementById("heroSavingFor").textContent =
-    "Saving together for " + savingFor;
-
-  document.getElementById("heroSaved").textContent =
-    formatMoney(saved) + " saved";
-
-  document.getElementById("heroGoal").textContent =
-    formatMoney(goal) + " goal";
-
-  document.getElementById("heroProgress").style.width =
-    percent + "%";
-
-  const memberCount = state.members.length;
-
-  document.getElementById("memberCount").textContent =
-    memberCount;
-
-  /* Today's target */
-
-  const contributionAmount = Number(club["Contribution Amount"] || 0);
-  const target = contributionAmount * memberCount;
-
-  const today = todayString();
-  const todaysContributions = state.contributions.filter(
-    c => c.contribution_date === today
-  );
-
-  const paidMemberIds = new Set(
-    todaysContributions.map(c => Number(c.member_id))
-  );
-
-  const paidCount = state.members.filter(
-    m => paidMemberIds.has(Number(m.id))
-  ).length;
-
-  const paidAmount = todaysContributions.reduce(
-    (sum,c) => sum + Number(c.amount || 0),0
-  );
-
-  const outstanding = Math.max(0,target-paidAmount);
-
-  document.getElementById("targetAmount").textContent =
-    formatMoney(target);
-
-  if(paidCount >= memberCount && memberCount > 0){
-
-    document.getElementById("targetStatus").innerHTML =
-      '<span class="success">✓ Everyone\'s paid</span>';
-
-  }else{
-
-    document.getElementById("targetStatus").textContent =
-      `${paidCount} of ${memberCount} paid · ${formatMoney(outstanding)} outstanding`;
-  }
-
-  /* Your streak */
-
-  const yourStreak = calculateMemberStreak(state.currentMemberId);
-
-  document.getElementById("yourStreak").textContent =
-    "Day " + yourStreak;
-
-  document.getElementById("yourStreakSmall").textContent =
-    yourStreak > 0
-      ? "Keep it going! 🔥"
-      : "Make today's contribution";
-
-  /* Club streak */
-
-  const clubStreak = calculateClubStreak();
-
-  document.getElementById("clubStreak").textContent =
-    "Day " + clubStreak;
-
-  document.getElementById("clubStreakSmall").textContent =
-    clubStreak > 0
-      ? "Everyone is showing up! 🔥"
-      : "Everyone pays = streak";
-
-  /* Check-in */
-
-  const hasPaidToday = state.contributions.some(
-    c =>
-      Number(c.member_id) === Number(state.currentMemberId) &&
-      c.contribution_date === today
-  );
-
-  const checkinButton = document.getElementById("checkinButton");
-
-  if(hasPaidToday){
-
-    document.getElementById("checkinTitle").textContent =
-      "You're paid for today! 🎉";
-
-    document.getElementById("checkinSub").textContent =
-      `Your ${formatMoney(contributionAmount)} contribution is in.`;
-
-    checkinButton.textContent = "✓ Paid";
-    checkinButton.disabled = true;
-    checkinButton.style.opacity = ".65";
-
-  }else{
-
-    document.getElementById("checkinTitle").textContent =
-      "Have you paid today?";
-
-    document.getElementById("checkinSub").textContent =
-      `${formatMoney(contributionAmount)} contribution · ${frequencyLabel(club["Frequency"])}`;
-
-    checkinButton.textContent =
-      "Pay " + formatMoney(contributionAmount);
-
-    checkinButton.disabled = false;
-    checkinButton.style.opacity = "1";
-  }
-
-  document.getElementById("clubGoalText").textContent =
-    formatMoney(saved) + " / " + formatMoney(goal);
-
-  document.getElementById("clubGoalSub").textContent =
-    percent >= 100
-      ? "🎉 Goal reached!"
-      : Math.round(percent) + "% of the way to " + savingFor;
-}
-
-/* =========================================================
-   RECORD CONTRIBUTION
-========================================================= */
-
-async function recordToday(){
-
-  if(!state.club || !state.currentMemberId) return;
-
-  const today = todayString();
-
-  const existing = state.contributions.find(
-    c =>
-      Number(c.member_id) === Number(state.currentMemberId) &&
-      c.contribution_date === today
-  );
-
-  if(existing){
-    showToast("You've already paid today 💗");
-    return;
-  }
-
-  const amount = Number(state.club["Contribution Amount"] || 0);
-
-  if(amount <= 0){
-    showToast("This club doesn't have a contribution amount yet.");
-    return;
-  }
-
-  const button = document.getElementById("checkinButton");
-  button.disabled = true;
-  button.textContent = "Saving…";
-
-  try{
-
-    const { error } = await supabase
-      .from("Contributions")
-      .insert({
-        amount: amount,
-        contribution_date: today,
-        club_id: state.club.id,
-        member_id: state.currentMemberId
-      });
-
-    if(error) throw error;
-
-    await refreshData();
-
-    showCelebration();
-
-  }catch(error){
+  if(error){
 
     console.error(error);
 
     button.disabled = false;
-    button.textContent = "Pay " + formatMoney(amount);
 
-    showToast("Couldn't record your contribution: " + error.message);
+    alert(
+      error.message ||
+      "We couldn't save your contribution."
+    );
+
+    return;
+
   }
+
+  contributions.push(
+    newContribution
+  );
+
+  render();
+
+  checkMilestone(oldPercent);
+
+  /*
+    Only celebrate a club streak if this contribution
+    completed the whole squad's day.
+  */
+
+  const newClubStreak =
+    getClubStreak();
+
+  if(
+    newClubStreak > oldClubStreak &&
+    members.length > 1
+  ){
+
+    showCelebration(
+      "🔥",
+      "THE WHOLE SQUAD!",
+      `Everyone has contributed. Club streak: Day ${newClubStreak}!`
+    );
+
+  }
+
 }
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function renderCountdown(){
+
+  const days =
+    getSchoolDaysRemaining();
+
+  document.getElementById("daysRemaining").textContent =
+    days +
+    (days === 1 ? " day" : " days");
+
+  document.getElementById("countdownSub").textContent =
+    "estimated contribution days to goal";
+
+}
+
+
+/* =========================================================
+   MILESTONES
+========================================================= */
+
+function getMilestones(){
+
+  const goal =
+    getGoal();
+
+  return [
+
+    {
+      value:goal * .25,
+      label:"25%",
+      icon:"🥰"
+    },
+
+    {
+      value:goal * .50,
+      label:"50%",
+      icon:"✨"
+    },
+
+    {
+      value:goal * .75,
+      label:"75%",
+      icon:"💅"
+    },
+
+    {
+      value:goal,
+      label:"100%",
+      icon:"👑"
+    }
+
+  ];
+
+}
+
+
+function renderMilestones(){
+
+  const total =
+    getTotalSaved();
+
+  [
+    document.getElementById("milestonesHome"),
+    document.getElementById("milestonesProgress")
+  ].forEach(container => {
+
+    container.innerHTML = "";
+
+    getMilestones().forEach(m => {
+
+      const reached =
+        total >= m.value;
+
+      const el =
+        document.createElement("div");
+
+      el.className =
+        "milestone " +
+        (reached ? "" : "locked");
+
+      el.innerHTML = `
+
+        <div class="milestone-icon">
+          ${m.icon}
+        </div>
+
+        <div class="milestone-label">
+          ${m.label}
+        </div>
+
+      `;
+
+      container.appendChild(el);
+
+    });
+
+  });
+
+}
+
+
+function checkMilestone(oldPercent){
+
+  const newPercent =
+    getPercent();
+
+  let message = null;
+
+  if(oldPercent < 25 && newPercent >= 25){
+
+    message = [
+      "🥰",
+      "QUARTER WAY!",
+      "Okayyy squad. We're officially 25% of the way there."
+    ];
+
+  }else if(oldPercent < 50 && newPercent >= 50){
+
+    message = [
+      "🤩",
+      "HALF WAY THERE!",
+      "Look at you! The goal is officially halfway done."
+    ];
+
+  }else if(oldPercent < 75 && newPercent >= 75){
+
+    message = [
+      "😎",
+      "THE GOAL IS LOADING.",
+      "75% complete. Keep going!"
+    ];
+
+  }else if(oldPercent < 100 && newPercent >= 100){
+
+    message = [
+      "👑",
+      "WE DID IT!!!",
+      "Small contributions. Big goal. You actually did that. 💕"
+    ];
+
+  }
+
+  if(message){
+
+    showCelebration(
+      message[0],
+      message[1],
+      message[2]
+    );
+
+  }
+
+}
+
 
 /* =========================================================
    MEMBERS
@@ -1672,169 +2667,88 @@ async function recordToday(){
 
 function renderMembers(){
 
-  const list = document.getElementById("membersList");
+  const container =
+    document.getElementById("memberList");
 
-  if(!state.members.length){
-    list.innerHTML = '<div class="empty">No members yet.</div>';
+  container.innerHTML = "";
+
+  if(!members.length){
+
+    container.innerHTML =
+      `<div class="empty">No members yet 👀</div>`;
+
     return;
+
   }
 
-  list.innerHTML = state.members.map(member => {
+  members.forEach(member => {
 
-    const total = memberTotal(member.id);
-    const streak = calculateMemberStreak(member.id);
-    const isAdmin = member.role === "admin";
+    const total =
+      getMemberTotal(member.id);
 
-    return `
-      <div class="member-row">
-        <div class="avatar">${escapeHtml(member.avatar || "👤")}</div>
+    const streak =
+      getMemberStreak(member.id);
 
-        <div class="member-info">
-          <div class="member-name">
-            ${escapeHtml(member.name || "Member")}
-            ${isAdmin ? " 👑" : ""}
-          </div>
+    const paid =
+      getMemberPaidToday(member.id);
 
-          <div class="member-meta">
-            ${formatMoney(total)} saved · 🔥 ${streak} day streak
-          </div>
-        </div>
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "member-card";
+
+    card.innerHTML = `
+
+      <div class="avatar">
+        ${escapeHtml(member.avatar || "💕")}
       </div>
+
+      <div class="member-info">
+
+        <div class="member-name">
+
+          ${escapeHtml(member.name)}
+
+          ${
+            me &&
+            member.id === me.id
+              ? " <span style='color:var(--pink)'>• you</span>"
+              : ""
+          }
+
+          ${
+            member.role === "admin"
+              ? " <span style='color:var(--purple)'>• admin</span>"
+              : ""
+          }
+
+        </div>
+
+        <div class="member-meta">
+          🔥 ${streak} day streak
+        </div>
+
+      </div>
+
+      <div class="member-money">
+
+        <strong>${money(total)}</strong>
+
+        <span class="status-dot">
+          ${paid ? "● paid" : "○ pending"}
+        </span>
+
+      </div>
+
     `;
-  }).join("");
 
-  const today = todayString();
+    container.appendChild(card);
 
-  document.getElementById("memberProgressList").innerHTML =
-    state.members.map(member => {
+  });
 
-      const paid = state.contributions.some(
-        c =>
-          Number(c.member_id) === Number(member.id) &&
-          c.contribution_date === today
-      );
-
-      return `
-        <div class="member-row">
-          <div class="avatar">${escapeHtml(member.avatar || "👤")}</div>
-
-          <div class="member-info">
-            <div class="member-name">${escapeHtml(member.name || "Member")}</div>
-            <div class="member-meta">
-              ${formatMoney(memberTotal(member.id))} total
-            </div>
-          </div>
-
-          <div class="status ${paid ? "paid":"pending"}">
-            ${paid ? "✓ Paid":"Pending"}
-          </div>
-        </div>
-      `;
-    }).join("");
 }
 
-/* =========================================================
-   MEMBERS EDIT
-========================================================= */
-
-function openMembersModal(){
-
-  if(!isAdmin()){
-    showToast("Only the club creator can edit members.");
-    return;
-  }
-
-  openModal(`
-    <h2>Edit members</h2>
-    <div class="modal-sub">Update member names or avatars.</div>
-
-    ${state.members.map(member => `
-      <div class="card" style="margin-bottom:10px;padding:14px">
-
-        <div class="field">
-          <label>Name</label>
-          <input id="memberName_${member.id}" value="${escapeAttr(member.name || "")}">
-        </div>
-
-        <div class="field">
-          <label>Avatar</label>
-          <div id="memberAvatar_${member.id}" class="avatar-picker">
-            ${avatarPickerHtml(
-              member.avatar || "👩🏽",
-              `memberAvatarSelect(${member.id}, this)`
-            )}
-          </div>
-        </div>
-
-      </div>
-    `).join("")}
-
-    <div class="modal-actions">
-      <button class="secondary" onclick="closeModal()">Cancel</button>
-      <button class="primary pink" onclick="saveMembers()">Save</button>
-    </div>
-  `);
-}
-
-function memberAvatarSelect(memberId, element){
-
-  const container = document.getElementById(
-    "memberAvatar_" + memberId
-  );
-
-  container.querySelectorAll(".avatar-option")
-    .forEach(x => x.classList.remove("selected"));
-
-  element.classList.add("selected");
-  element.dataset.selected = "true";
-}
-
-async function saveMembers(){
-
-  try{
-
-    for(const member of state.members){
-
-      const nameInput =
-        document.getElementById("memberName_" + member.id);
-
-      const avatarContainer =
-        document.getElementById("memberAvatar_" + member.id);
-
-      const selected =
-        avatarContainer.querySelector(".avatar-option.selected");
-
-      const name = nameInput.value.trim();
-      const avatar = selected
-        ? selected.textContent
-        : member.avatar;
-
-      if(!name){
-        showToast("Member names cannot be empty.");
-        return;
-      }
-
-      const { error } = await supabase
-        .from("Club Members")
-        .update({
-          name,
-          avatar
-        })
-        .eq("id", member.id);
-
-      if(error) throw error;
-    }
-
-    closeModal();
-    await refreshData();
-    showToast("Members updated 💗");
-
-  }catch(error){
-
-    console.error(error);
-    showToast("Couldn't update members: " + error.message);
-  }
-}
 
 /* =========================================================
    PROGRESS
@@ -1842,616 +2756,709 @@ async function saveMembers(){
 
 function renderProgress(){
 
-  const goal = Number(state.club?.["Goal"] || 0);
-  const saved = totalSaved();
-  const percent = goal
-    ? Math.min(100,(saved/goal)*100)
-    : 0;
+  const total =
+    getTotalSaved();
 
-  const progress = document.getElementById("bigProgress");
+  const goal =
+    getGoal();
 
-  progress.style.setProperty(
-    "--percent",
-    percent + "%"
+  const percent =
+    getPercent();
+
+  document.getElementById("circlePercent").textContent =
+    percent.toFixed(percent % 1 ? 1 : 0) + "%";
+
+  document.getElementById("progressAmount").textContent =
+    money(total) + " saved";
+
+  document.getElementById("progressGoal").textContent =
+    money(goal);
+
+  const degrees =
+    Math.min(360,percent*3.6);
+
+  document.getElementById("progressCircle").style.background =
+    `conic-gradient(
+      var(--pink) 0deg,
+      var(--pink) ${degrees}deg,
+      var(--pink-soft) ${degrees}deg,
+      var(--pink-soft) 360deg
+    )`;
+
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+function changeMonth(direction){
+
+  calendarDate.setMonth(
+    calendarDate.getMonth()+direction
   );
 
-  document.getElementById("bigProgressPercent").textContent =
-    Math.round(percent) + "%";
-
-  document.getElementById("bigSaved").textContent =
-    formatMoney(saved);
-
-  document.getElementById("bigGoal").textContent =
-    "Goal: " + formatMoney(goal);
-
-  renderMilestones();
   renderCalendar();
+
 }
 
-function renderMilestones(){
-
-  const goal = Number(state.club?.["Goal"] || 0);
-  const savingFor = state.club?.["Saving for"] || "goal";
-  const saved = totalSaved();
-
-  if(!goal){
-    document.getElementById("milestones").innerHTML =
-      '<div class="empty">Set a goal to see milestones.</div>';
-    return;
-  }
-
-  const milestones = [
-    {pct:25,label:"Quarter way there!",emoji:"🌱"},
-    {pct:50,label:"Halfway there!",emoji:"🔥"},
-    {pct:75,label:"75%!",emoji:"🚀"},
-    {pct:100,label:"Goal reached!",emoji:"🎉"}
-  ];
-
-  document.getElementById("milestones").innerHTML =
-    milestones.map(m => {
-
-      const amount = goal * m.pct / 100;
-      const done = saved >= amount;
-
-      return `
-        <div class="milestone ${done ? "done":""}">
-          <div class="milestone-dot">${done ? "✓":m.emoji}</div>
-
-          <div class="milestone-text">
-            <div class="milestone-title">
-              ${m.label}
-            </div>
-
-            <div class="milestone-sub">
-              ${formatMoney(amount)} · ${savingFor}
-            </div>
-          </div>
-
-          <div class="card-small">
-            ${done ? "Done":"Not yet"}
-          </div>
-        </div>
-      `;
-    }).join("");
-}
 
 function renderCalendar(){
 
-  const calendar = document.getElementById("calendar");
-  const today = new Date();
+  const year =
+    calendarDate.getFullYear();
 
-  let html = "";
+  const month =
+    calendarDate.getMonth();
 
-  for(let i=27;i>=0;i--){
+  document.getElementById("calendarTitle").textContent =
+    calendarDate.toLocaleDateString("en-ZA",{
+      month:"long",
+      year:"numeric"
+    });
 
-    const date = new Date(today);
-    date.setDate(today.getDate()-i);
+  const grid =
+    document.getElementById("calendarGrid");
 
-    const dateString = localDateString(date);
+  grid.innerHTML = "";
 
-    const paid = state.contributions.some(
-      c =>
-        Number(c.member_id) === Number(state.currentMemberId) &&
-        c.contribution_date === dateString
-    );
+  ["M","T","W","T","F","S","S"].forEach(day => {
 
-    const isToday = dateString === todayString();
+    const el =
+      document.createElement("div");
 
-    html += `
-      <div
-        class="day ${paid ? "paid":""} ${isToday ? "today":""}"
-        title="${dateString}"
-      >
-        ${date.getDate()}
+    el.className = "day-name";
+
+    el.textContent = day;
+
+    grid.appendChild(el);
+
+  });
+
+  const first =
+    new Date(year,month,1);
+
+  let start =
+    first.getDay();
+
+  start =
+    start === 0 ? 6 : start-1;
+
+  for(let i=0;i<start;i++){
+
+    const el =
+      document.createElement("div");
+
+    el.className = "day empty";
+
+    grid.appendChild(el);
+
+  }
+
+  const days =
+    new Date(year,month+1,0).getDate();
+
+  for(let d=1;d<=days;d++){
+
+    const date =
+      new Date(year,month,d);
+
+    const key =
+      dateKey(date);
+
+    const el =
+      document.createElement("div");
+
+    el.className = "day";
+
+    el.textContent = d;
+
+    const frequency =
+      club?.["Frequency"] || "school days";
+
+    if(
+      frequency === "school days" &&
+      !isSchoolDay(date)
+    ){
+
+      el.classList.add("weekend");
+
+    }else{
+
+      const paid =
+        me &&
+        contributions.some(c =>
+          String(c.member_id) === String(me.id) &&
+          c.contribution_date === key
+        );
+
+      if(paid){
+
+        el.classList.add("paid");
+
+      }else if(date <= new Date()){
+
+        el.classList.add("missed");
+
+      }
+
+    }
+
+    grid.appendChild(el);
+
+  }
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+function renderAchievements(){
+
+  const grid =
+    document.getElementById("achievementGrid");
+
+  grid.innerHTML = "";
+
+  const myTotal =
+    me ? getMemberTotal(me.id) : 0;
+
+  const myStreak =
+    me ? getMemberStreak(me.id) : 0;
+
+  const clubStreak =
+    getClubStreak();
+
+  const myContributionCount =
+    me
+      ? contributions.filter(c =>
+          String(c.member_id) === String(me.id)
+        ).length
+      : 0;
+
+  const achievements = [
+
+    {
+      icon:"🔥",
+      name:"On Fire",
+      desc:"Save for 7 days in a row.",
+      unlocked:myStreak >= 7
+    },
+
+    {
+      icon:"💯",
+      name:"Consistent Queen",
+      desc:"Make 30 contributions.",
+      unlocked:myContributionCount >= 30
+    },
+
+    {
+      icon:"💰",
+      name:"Big Saver",
+      desc:"Personally save R500.",
+      unlocked:myTotal >= 500
+    },
+
+    {
+      icon:"📈",
+      name:"Halfway There",
+      desc:"Reach 50% of the club goal.",
+      unlocked:getPercent() >= 50
+    },
+
+    {
+      icon:"🔥",
+      name:"Club On Fire",
+      desc:"Keep everyone contributing for 5 days.",
+      unlocked:clubStreak >= 5
+    },
+
+    {
+      icon:"👑",
+      name:"We Did It",
+      desc:"Reach the full club goal.",
+      unlocked:getPercent() >= 100
+    }
+
+  ];
+
+  achievements.forEach(a => {
+
+    const el =
+      document.createElement("div");
+
+    el.className =
+      "achievement " +
+      (a.unlocked ? "" : "locked");
+
+    el.innerHTML = `
+
+      <div class="achievement-icon">
+        ${a.unlocked ? a.icon : "🔒"}
       </div>
+
+      <div class="achievement-name">
+        ${a.name}
+      </div>
+
+      <div class="achievement-desc">
+        ${a.desc}
+      </div>
+
     `;
-  }
 
-  calendar.innerHTML = html;
+    grid.appendChild(el);
+
+  });
+
 }
+
 
 /* =========================================================
-   MORE
+   SETTINGS
 ========================================================= */
 
-function renderMore(){
+function renderSettings(){
 
-  if(!state.club) return;
+  document.getElementById("settingClubName").value =
+    club["Name"] || "";
 
-  const club = state.club;
+  document.getElementById("settingSavingFor").value =
+    club["Saving for"] || "";
 
-  document.getElementById("moreClubName").textContent =
-    club["Name"] || "Your club";
+  document.getElementById("settingGoal").value =
+    club["Goal"] || "";
 
-  document.getElementById("moreSavingFor").textContent =
-    "Saving for " + (club["Saving for"] || "your goal");
+  document.getElementById("settingContribution").value =
+    club["Contribution Amount"] || "";
 
-  document.getElementById("moreInviteCode").textContent =
-    club["Invite Code"] || "—";
+  document.getElementById("settingFrequency").value =
+    club["Frequency"] || "school days";
 
-  document.getElementById("clubDetails").innerHTML = `
-
-    <div class="setting-row">
-      <div class="setting-label">Saving for</div>
-      <div class="setting-value">${escapeHtml(club["Saving for"] || "—")}</div>
-    </div>
-
-    <div class="setting-row">
-      <div class="setting-label">Goal</div>
-      <div class="setting-value">${formatMoney(club["Goal"] || 0)}</div>
-    </div>
-
-    <div class="setting-row">
-      <div class="setting-label">Contribution</div>
-      <div class="setting-value">${formatMoney(club["Contribution Amount"] || 0)}</div>
-    </div>
-
-    <div class="setting-row">
-      <div class="setting-label">Frequency</div>
-      <div class="setting-value">${escapeHtml(frequencyLabel(club["Frequency"]))}</div>
-    </div>
-
-    <div class="setting-row">
-      <div class="setting-label">Member target</div>
-      <div class="setting-value">${formatMoney(club["Member Target"] || 0)}</div>
-    </div>
-
-  `;
 }
 
-/* =========================================================
-   CLUB SETTINGS
-========================================================= */
-
-function openSettingsModal(){
-
-  if(!isAdmin()){
-    openModal(`
-      <h2>Club settings</h2>
-      <div class="modal-sub">Only the club creator can change these settings.</div>
-
-      <div class="notice">
-        You're a member of this club, so these settings are read-only for you.
-      </div>
-
-      <div class="card">
-        <div class="setting-row">
-          <div class="setting-label">Club name</div>
-          <div class="setting-value">${escapeHtml(state.club["Name"] || "—")}</div>
-        </div>
-
-        <div class="setting-row">
-          <div class="setting-label">Saving for</div>
-          <div class="setting-value">${escapeHtml(state.club["Saving for"] || "—")}</div>
-        </div>
-
-        <div class="setting-row">
-          <div class="setting-label">Goal</div>
-          <div class="setting-value">${formatMoney(state.club["Goal"] || 0)}</div>
-        </div>
-      </div>
-
-      <button class="primary" style="width:100%" onclick="closeModal()">
-        Done
-      </button>
-    `);
-
-    return;
-  }
-
-  const club = state.club;
-
-  openModal(`
-    <h2>Club settings ⚙️</h2>
-    <div class="modal-sub">Update the details of your shared goal.</div>
-
-    <div class="field">
-      <label>Club name</label>
-      <input id="settingsName" value="${escapeAttr(club["Name"] || "")}">
-    </div>
-
-    <div class="field">
-      <label>Saving for</label>
-      <input id="settingsSavingFor" value="${escapeAttr(club["Saving for"] || "")}">
-    </div>
-
-    <div class="form-grid">
-
-      <div class="field">
-        <label>Goal (R)</label>
-        <input id="settingsGoal" type="number" min="1" value="${Number(club["Goal"] || 0)}">
-      </div>
-
-      <div class="field">
-        <label>Member target (R)</label>
-        <input id="settingsMemberTarget" type="number" min="0" value="${Number(club["Member Target"] || 0)}">
-      </div>
-
-    </div>
-
-    <div class="form-grid">
-
-      <div class="field">
-        <label>Contribution (R)</label>
-        <input id="settingsContribution" type="number" min="0.01" step="0.01" value="${Number(club["Contribution Amount"] || 0)}">
-      </div>
-
-      <div class="field">
-        <label>Frequency</label>
-        <select id="settingsFrequency">
-          <option value="school days" ${club["Frequency"]==="school days"?"selected":""}>School days</option>
-          <option value="daily" ${club["Frequency"]==="daily"?"selected":""}>Daily</option>
-          <option value="weekly" ${club["Frequency"]==="weekly"?"selected":""}>Weekly</option>
-          <option value="monthly" ${club["Frequency"]==="monthly"?"selected":""}>Monthly</option>
-        </select>
-      </div>
-
-    </div>
-
-    <div class="modal-actions">
-      <button class="secondary" onclick="closeModal()">Cancel</button>
-      <button class="primary pink" onclick="saveSettings()">Save changes</button>
-    </div>
-  `);
-}
 
 async function saveSettings(){
 
-  try{
+  if(!club) return;
 
-    const update = {
-      "Name": val("settingsName"),
-      "Saving for": val("settingsSavingFor"),
-      "Goal": Number(val("settingsGoal")),
-      "Member Target": Number(val("settingsMemberTarget")),
-      "Contribution Amount": Number(val("settingsContribution")),
-      "Frequency": val("settingsFrequency")
-    };
+  if(me?.role !== "admin"){
 
-    if(
-      !update["Name"] ||
-      !update["Saving for"] ||
-      update["Goal"] <= 0 ||
-      update["Contribution Amount"] <= 0
-    ){
-      showToast("Please enter valid club details.");
-      return;
-    }
+    alert(
+      "Only the club creator can change club settings."
+    );
 
-    const { error } = await supabase
+    return;
+
+  }
+
+  const name =
+    document.getElementById("settingClubName")
+      .value.trim();
+
+  const savingFor =
+    document.getElementById("settingSavingFor")
+      .value.trim();
+
+  const goal =
+    Number(
+      document.getElementById("settingGoal").value
+    );
+
+  const contribution =
+    Number(
+      document.getElementById("settingContribution").value
+    );
+
+  const frequency =
+    document.getElementById("settingFrequency").value;
+
+  if(
+    !name ||
+    !savingFor ||
+    goal <= 0 ||
+    contribution <= 0
+  ){
+
+    alert(
+      "Please enter valid club details 💕"
+    );
+
+    return;
+
+  }
+
+  const {data:updated,error} =
+    await supabaseClient
       .from("Clubs")
-      .update(update)
-      .eq("id", state.club.id);
+      .update({
 
-    if(error) throw error;
+        "Name":name,
+        "Saving for":savingFor,
+        "Goal":goal,
+        "Contribution Amount":contribution,
+        "Frequency":frequency
 
-    closeModal();
-    await refreshData();
+      })
+      .eq("id",club.id)
+      .select()
+      .single();
 
-    showToast("Club settings updated ✨");
-
-  }catch(error){
+  if(error){
 
     console.error(error);
-    showToast("Couldn't update settings: " + error.message);
+
+    alert(error.message);
+
+    return;
+
   }
+
+  club = updated;
+
+  render();
+
+  alert("Club settings saved 💕");
+
 }
+
 
 /* =========================================================
-   INVITE
+   INVITE / SHARE
 ========================================================= */
 
-function shareInvite(){
+async function copyInviteCode(){
 
-  if(!state.club) return;
+  const code =
+    club["Invite Code"];
 
-  const code = state.club["Invite Code"];
-  const clubName = state.club["Name"] || "our club";
+  try{
+
+    await navigator.clipboard.writeText(code);
+
+    alert(
+      `Invite code ${code} copied! 💕`
+    );
+
+  }catch{
+
+    alert(
+      `Your invite code is ${code}`
+    );
+
+  }
+
+}
+
+
+async function shareInvite(){
+
+  const code =
+    club["Invite Code"];
 
   const text =
-`🐷 Join ${clubName} on Piggy Bank!
+    `Join our Piggy Bank club 💕\n\nInvite code: ${code}\n\nSmall contributions. Big goals.`;
 
-We're saving together for ${state.club["Saving for"] || "our goal"}.
+  if(navigator.share){
 
-Your invite code:
-${code}
+    try{
 
-Open Piggy Bank and choose "Join a club". 💗`;
+      await navigator.share({
+        title:"Join my Piggy Bank club 💕",
+        text:text
+      });
 
-  const url =
-    "https://wa.me/?text=" +
-    encodeURIComponent(text);
+    }catch{}
 
-  window.open(url,"_blank");
+  }else{
+
+    try{
+
+      await navigator.clipboard.writeText(text);
+
+      alert(
+        "Invite message copied! Paste it into WhatsApp 💕"
+      );
+
+    }catch{
+
+      alert(text);
+
+    }
+
+  }
+
 }
+
+
+/* =========================================================
+   WELCOME / MODALS
+========================================================= */
+
+function showWelcome(){
+
+  document.getElementById("welcome")
+    .classList.add("show");
+
+  document.getElementById("bottomNav")
+    .style.display = "none";
+
+}
+
+
+function hideWelcome(){
+
+  document.getElementById("welcome")
+    .classList.remove("show");
+
+  document.getElementById("bottomNav")
+    .style.display = "grid";
+
+}
+
+
+function openCreateClub(){
+
+  closeModals();
+
+  document.getElementById("createModal")
+    .classList.add("show");
+
+}
+
+
+function openJoinClub(){
+
+  closeModals();
+
+  document.getElementById("joinModal")
+    .classList.add("show");
+
+}
+
+
+function closeModals(){
+
+  document.getElementById("createModal")
+    .classList.remove("show");
+
+  document.getElementById("joinModal")
+    .classList.remove("show");
+
+}
+
 
 /* =========================================================
    CELEBRATION
 ========================================================= */
 
-function showCelebration(){
+function showCelebration(icon,title,text){
 
-  openModal(`
-    <div style="text-align:center;padding:18px 5px">
+  document.getElementById("celebrationIcon").textContent =
+    icon;
 
-      <div style="font-size:70px">🐷💗</div>
+  document.getElementById("celebrationTitle").textContent =
+    title;
 
-      <h2>Contribution done!</h2>
+  document.getElementById("celebrationText").textContent =
+    text;
 
-      <div class="modal-sub">
-        Another little step toward
-        <strong>${escapeHtml(state.club["Saving for"] || "your goal")}</strong>.
-      </div>
+  document.getElementById("celebration")
+    .classList.add("show");
 
-      <div class="invite-box">
-        <div class="card-label">Your streak</div>
-        <div class="money">
-          🔥 Day ${calculateMemberStreak(state.currentMemberId)}
-        </div>
-      </div>
+  launchConfetti();
 
-      <button class="primary pink" style="width:100%" onclick="closeModal()">
-        Keep going ✨
-      </button>
-
-    </div>
-  `);
 }
 
-/* =========================================================
-   MODAL
-========================================================= */
 
-function openModal(html){
-  document.getElementById("modal").innerHTML = html;
-  document.getElementById("modalBackdrop").classList.remove("hidden");
+function closeCelebration(){
+
+  document.getElementById("celebration")
+    .classList.remove("show");
+
 }
 
-function closeModal(){
-  document.getElementById("modalBackdrop").classList.add("hidden");
-  document.getElementById("modal").innerHTML = "";
-}
 
-function closeModalIfBackdrop(event){
-  if(event.target.id === "modalBackdrop"){
-    closeModal();
-  }
-}
+function launchConfetti(){
 
-/* =========================================================
-   CALCULATIONS
-========================================================= */
+  const emojis =
+    ["💕","✨","🎀","💗","🌸","⭐","🎯"];
 
-function totalSaved(){
-  return state.contributions.reduce(
-    (sum,c) => sum + Number(c.amount || 0),
-    0
-  );
-}
+  for(let i=0;i<24;i++){
 
-function memberTotal(memberId){
-  return state.contributions
-    .filter(c => Number(c.member_id) === Number(memberId))
-    .reduce((sum,c) => sum + Number(c.amount || 0),0);
-}
+    const el =
+      document.createElement("div");
 
-/*
-  Personal streak:
-  Counts consecutive qualifying contribution dates,
-  including today if the member paid today.
-*/
-function calculateMemberStreak(memberId){
+    el.className = "confetti";
 
-  const frequency = state.club?.["Frequency"] || "school days";
+    el.textContent =
+      emojis[
+        Math.floor(
+          Math.random()*emojis.length
+        )
+      ];
 
-  const dates = new Set(
-    state.contributions
-      .filter(c => Number(c.member_id) === Number(memberId))
-      .map(c => c.contribution_date)
-  );
+    el.style.left =
+      Math.random()*100 + "vw";
 
-  let streak = 0;
-  let cursor = new Date();
+    el.style.top =
+      (-10-Math.random()*20) + "vh";
 
-  /*
-    For weekly/monthly we keep V1 simple.
-    The streak is based on contribution records.
-  */
+    el.style.animationDelay =
+      Math.random()*.6 + "s";
 
-  for(let i=0;i<365;i++){
+    document.body.appendChild(el);
 
-    const dateString = localDateString(cursor);
-
-    if(!isQualifyingDate(cursor,frequency)){
-      cursor.setDate(cursor.getDate()-1);
-      continue;
-    }
-
-    if(dates.has(dateString)){
-      streak++;
-      cursor.setDate(cursor.getDate()-1);
-    }else{
-      break;
-    }
-  }
-
-  return streak;
-}
-
-/*
-  Club streak:
-  Every member must have contributed on the
-  qualifying day.
-*/
-function calculateClubStreak(){
-
-  if(!state.members.length) return 0;
-
-  const frequency = state.club?.["Frequency"] || "school days";
-
-  const cursor = new Date();
-  let streak = 0;
-
-  for(let i=0;i<365;i++){
-
-    if(!isQualifyingDate(cursor,frequency)){
-      cursor.setDate(cursor.getDate()-1);
-      continue;
-    }
-
-    const dateString = localDateString(cursor);
-
-    const allPaid = state.members.every(member =>
-      state.contributions.some(
-        c =>
-          Number(c.member_id) === Number(member.id) &&
-          c.contribution_date === dateString
-      )
+    setTimeout(
+      ()=>el.remove(),
+      3500
     );
 
-    if(allPaid){
-      streak++;
-      cursor.setDate(cursor.getDate()-1);
-    }else{
-      break;
-    }
   }
 
-  return streak;
 }
 
-function isQualifyingDate(date,frequency){
-
-  const day = date.getDay();
-
-  if(frequency === "school days"){
-    return day !== 0 && day !== 6;
-  }
-
-  /*
-    Daily = every day.
-    Weekly/monthly are treated as contribution-record based
-    for V1 rather than trying to enforce a calendar schedule.
-  */
-
-  return frequency === "daily";
-}
 
 /* =========================================================
-   HELPERS
+   NAVIGATION
 ========================================================= */
 
-function todayString(){
-  return localDateString(new Date());
-}
+function showScreen(screen){
 
-function localDateString(date){
+  document.querySelectorAll(".screen")
+    .forEach(el =>
+      el.classList.remove("active")
+    );
 
-  const y = date.getFullYear();
-  const m = String(date.getMonth()+1).padStart(2,"0");
-  const d = String(date.getDate()).padStart(2,"0");
+  document
+    .getElementById(screen+"Screen")
+    .classList.add("active");
 
-  return `${y}-${m}-${d}`;
-}
+  document.querySelectorAll(".nav-btn")
+    .forEach(btn => {
 
-function formatMoney(value){
+      btn.classList.toggle(
+        "active",
+        btn.dataset.screen === screen
+      );
 
-  const number = Number(value || 0);
+    });
 
-  return "R" + number.toLocaleString("en-ZA",{
-    minimumFractionDigits:number % 1 ? 2 : 0,
-    maximumFractionDigits:2
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
   });
+
 }
 
-function frequencyLabel(value){
 
-  if(!value) return "Not set";
+/* =========================================================
+   THEME
+========================================================= */
 
-  const labels = {
-    "school days":"school days",
-    "daily":"daily",
-    "weekly":"weekly",
-    "monthly":"monthly"
-  };
+function applyTheme(){
 
-  return labels[value] || value;
+  document.documentElement.dataset.theme =
+    theme;
+
+  document.getElementById("themeIcon").textContent =
+    theme === "dark"
+      ? "☀️"
+      : "🌙";
+
 }
 
-function val(id){
-  const el = document.getElementById(id);
-  return el ? el.value.trim() : "";
+
+function toggleTheme(){
+
+  theme =
+    theme === "dark"
+      ? "light"
+      : "dark";
+
+  localStorage.setItem(
+    "piggyBankTheme",
+    theme
+  );
+
+  applyTheme();
+
 }
 
-function isAdmin(){
-  return state.currentMember?.role === "admin";
-}
 
-function generateInviteCode(){
+/* =========================================================
+   INIT
+========================================================= */
 
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+async function init(){
 
-  let code = "";
+  applyTheme();
 
-  for(let i=0;i<4;i++){
-    code += chars[Math.floor(Math.random()*chars.length)];
+  /*
+    Replace the value above with your full
+    Supabase publishable key.
+  */
+
+  if(
+    !SUPABASE_PUBLISHABLE_KEY ||
+    SUPABASE_PUBLISHABLE_KEY ===
+    "sb_publishable_"
+  ){
+
+    document.getElementById("loadingScreen").innerHTML = `
+
+      <div style="font-size:40px">🔑</div>
+
+      <h2 style="margin-top:10px">
+        One tiny setup step
+      </h2>
+
+      <p style="margin-top:8px">
+        Add your Supabase publishable key
+        to the index.html file first.
+      </p>
+
+    `;
+
+    return;
+
   }
 
-  return "PIGGY-" + code;
+  try{
+
+    await loadSavedClub();
+
+  }catch(error){
+
+    console.error(error);
+
+    document.getElementById("loadingScreen").innerHTML = `
+
+      <div style="font-size:40px">😬</div>
+
+      <h2 style="margin-top:10px">
+        Couldn't load Piggy Bank
+      </h2>
+
+      <p style="color:var(--muted);margin-top:8px">
+        ${escapeHtml(error.message)}
+      </p>
+
+    `;
+
+  }
+
+  document
+    .getElementById("loadingScreen")
+    .style.display = "none";
+
 }
 
-function avatarPickerHtml(selected="👩🏽", clickCode="selectAvatar(this)"){
 
-  return avatars.map(avatar => `
-    <button
-      type="button"
-      class="avatar-option ${avatar === selected ? "selected":""}"
-      onclick="${clickCode}"
-    >${avatar}</button>
-  `).join("");
-}
+init();
 
-function selectAvatar(element){
-
-  const container = element.parentElement;
-
-  container.querySelectorAll(".avatar-option")
-    .forEach(x => x.classList.remove("selected"));
-
-  element.classList.add("selected");
-
-  state.selectedAvatar = element.textContent;
-}
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-function escapeAttr(value){
-  return escapeHtml(value);
-}
-
-let toastTimer;
-
-function showToast(message){
-
-  const toast = document.getElementById("toast");
-
-  toast.textContent = message;
-  toast.classList.remove("hidden");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-    toast.classList.add("hidden");
-  },3000);
-}
 </script>
 
 </body>
